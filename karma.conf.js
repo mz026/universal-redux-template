@@ -1,5 +1,11 @@
+var RewirePlugin = require("rewire-webpack");
 var webpackConfig = require('./webpack.config.js');
+
+// tweak webpackConfig
 webpackConfig.devtool = '#inline-source-map';
+webpackConfig.plugins.push(new RewirePlugin());
+delete webpackConfig.module.loaders[0].loader;
+delete webpackConfig.module.loaders[0].query;
 webpackConfig.module.loaders[0].loaders = ['babel?plugins=babel-plugin-rewire'];
 
 module.exports = function(config) {
