@@ -1,7 +1,6 @@
 import { Question } from 'containers/Question';
-import React from 'react/addons';
-
-let { TestUtils } = React.addons;
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
 
 describe('Container::Question', function(){
   let props;
