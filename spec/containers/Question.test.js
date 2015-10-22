@@ -1,4 +1,4 @@
-import { Question } from 'containers/Question';
+import Container, { Question } from 'containers/Question';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 
@@ -7,7 +7,9 @@ describe('Container::Question', function(){
   beforeEach(function(){
     props = {
       loadQuestions: sinon.stub()
-    }
+    };
+
+    Container.__Rewire__('loadQuestions', sinon.stub());
   });
   it('can be rendered', function(){
     let doc = TestUtils.renderIntoDocument(<Question {...props} />);

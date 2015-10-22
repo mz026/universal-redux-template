@@ -21,4 +21,6 @@
 
 
 ## Testing:
-
+- test with mocha + chai: `$ npm test`
+- test with mocha + chai + karma: `$ npm run test:karma`
+- use rewire, sinon to mock

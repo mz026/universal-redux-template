@@ -4,7 +4,8 @@
   "description": "Universal Redux Template",
   "scripts": {
     "start": "NODE_PATH=. nodemon server & node webpack.server.js",
-    "test": "karma start"
+    "test:karma": "karma start",
+    "test": "NODE_ENV=test NODE_PATH=. mocha --compilers js:babel/register -r spec/support/setup.mocha.js --recursive 'spec/**/*.test.js' -w"
   },
   "repository": {
     "type": "git",
@@ -42,6 +43,7 @@
     "babel-runtime": "^5.8.25",
     "chai": "^3.3.0",
     "chai-as-promised": "^5.1.0",
+    "jsdom": "^7.0.1",
     "karma": "^0.13.10",
     "karma-chrome-launcher": "^0.2.0",
     "karma-mocha": "^0.2.0",
