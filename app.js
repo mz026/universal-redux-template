@@ -1,6 +1,7 @@
 import 'babel-core/polyfill';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 
 import configureStore from 'store/configureStore';
@@ -11,10 +12,8 @@ const history = createBrowserHistory();
 const store = configureStore();
 
 
-React.render((
+ReactDOM.render((
   <Provider store={store}>
-    {
-      ()=> createRoutes(history)
-    }
+    { createRoutes(history) }
   </Provider>
 ), document.getElementById('root'));

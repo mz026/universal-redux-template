@@ -2,6 +2,7 @@ import Express from 'express';
 import path from 'path';
 
 import React from 'react';
+import ReactDOMServer from 'react-dom/server';
 import createLocation from 'history/lib/createLocation'
 import { RoutingContext, match } from 'react-router'
 import createMemoryHistory from 'history/lib/createMemoryHistory';
@@ -47,9 +48,9 @@ server.get('*', (req, res)=> {
         Promise.resolve();
 
       promise.then(()=> {
-        let html = React.renderToString(
+        let html = ReactDOMServer.renderToString(
           <Provider store={store}>
-            { ()=> <RoutingContext {...renderProps}/> }
+            { <RoutingContext {...renderProps}/> }
           </Provider>
         );
 

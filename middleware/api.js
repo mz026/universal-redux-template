@@ -4,7 +4,7 @@ import superAgent from 'superagent';
 import Promise from 'bluebird';
 
 export const CALL_API = Symbol('CALL_API');
-// called from middleware and `fetchData`
+
 function createRequest ({ getState, next, request }) {
   let deferred = Promise.defer();
   // handle 401 and auth here
