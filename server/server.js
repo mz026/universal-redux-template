@@ -48,13 +48,14 @@ server.get('*', (req, res)=> {
         Promise.resolve();
 
       promise.then(()=> {
+        let reduxState = escape(JSON.stringify(store.getState()));
         let html = ReactDOMServer.renderToString(
           <Provider store={store}>
             { <RoutingContext {...renderProps}/> }
           </Provider>
         );
 
-        res.render('index', { html });
+        res.render('index', { html, reduxState });
       });
     }
   });

@@ -9,8 +9,16 @@ import createRoutes from 'routes/index';
 import { Provider } from 'react-redux';
 
 const history = createBrowserHistory();
-const store = configureStore();
 
+let reduxState;
+if (window.__REDUX_STATE__) {
+  try {
+    reduxState = JSON.parse(unescape(__REDUX_STATE__));
+  } catch (e) {
+  }
+}
+
+const store = configureStore(reduxState);
 
 ReactDOM.render((
   <Provider store={store}>
