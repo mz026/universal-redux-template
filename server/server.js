@@ -41,13 +41,10 @@ server.get('*', (req, res)=> {
     } else if (renderProps == null) {
       res.send(404, 'Not found')
     } else {
-      let { query, params } = renderProps;
-      let comp = renderProps.components[renderProps.components.length - 1].WrappedComponent;
-      let promise = comp.fetchData ?
-        comp.fetchData({ query, params, store }) :
-        Promise.resolve();
+      let [ getCurrentUrl, unsubscribe ] = subscribeUrl();
+      let reqUrl = location.pathname + location.search;
 
-      promise.then(()=> {
+      getReduxPromise().then(()=> {
         let reduxState = escape(JSON.stringify(store.getState()));
         let html = ReactDOMServer.renderToString(
           <Provider store={store}>
@@ -55,10 +52,36 @@ server.get('*', (req, res)=> {
           </Provider>
         );
 
-        res.render('index', { html, reduxState });
+        if ( getCurrentUrl() === reqUrl ) {
+          res.render('index', { html, reduxState });
+        } else {
+          res.redirect(302, getCurrentUrl());
+        }
+        unsubscribe();
       });
+      function getReduxPromise () {
+        let { query, params } = renderProps;
+        let comp = renderProps.components[renderProps.components.length - 1].WrappedComponent;
+        let promise = comp.fetchData ?
+          comp.fetchData({ query, params, store, history }) :
+          Promise.resolve();
+
+        return promise;
+      }
     }
   });
+  function subscribeUrl () {
+    let currentUrl = location.pathname + location.search;
+    let unsubscribe = history.listen((newLoc)=> {
+      if (newLoc.action === 'PUSH') {
+        currentUrl = newLoc.pathname + newLoc.search;
+      }
+    });
+    return [
+      ()=> currentUrl,
+      unsubscribe
+    ];
+  }
 });
 
 console.log(`Server is listening to port: ${port}`);

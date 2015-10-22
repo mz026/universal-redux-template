@@ -2,6 +2,7 @@ import { Schema, arrayOf, normalize } from 'normalizr';
 import { camelizeKeys } from 'humps';
 import superAgent from 'superagent';
 import Promise from 'bluebird';
+import _ from 'lodash';
 
 export const CALL_API = Symbol('CALL_API');
 
@@ -11,10 +12,17 @@ function createRequest ({ getState, next, request }) {
   let { method, url, successType } = request;
   superAgent[method](url)
     .end((err, res)=> {
-      next({
-        type: successType,
-        response: res.body
-      });
+      if ( !err ) {
+        next({
+          type: successType,
+          response: res.body
+        });
+
+        if (_.isFunction(request.afterSuccess)) {
+          request.afterSuccess({ getState });
+        }
+
+      }
       deferred.resolve();
     });
 
