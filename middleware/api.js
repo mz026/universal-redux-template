@@ -5,7 +5,7 @@ import Promise from 'bluebird';
 
 export const CALL_API = Symbol('CALL_API');
 // called from middleware and `fetchData`
-export function createRequest ({ getState, next, request }) {
+function createRequest ({ getState, next, request }) {
   let deferred = Promise.defer();
   // handle 401 and auth here
   let { method, url, successType } = request;
@@ -25,9 +25,8 @@ export default store => next => action => {
   if ( ! action[CALL_API] ) {
     return next(action);
   }
-  let apiAction = action[CALL_API];
-  let { request } = apiAction;
+  let request = action[CALL_API];
   let { getState } = store;
 
-  createRequest({ getState, next, request });
+  return createRequest({ getState, next, request });
 };

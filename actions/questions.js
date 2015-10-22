@@ -5,11 +5,9 @@ export const LOADED_QUESTIONS = 'LOADED_QUESTIONS';
 export function loadQuestions() {
   return {
     [CALL_API]: {
-      request: {
-        method: 'get',
-        url: 'http://localhost:3000/questions',
-        successType: LOADED_QUESTIONS
-      }
+      method: 'get',
+      url: 'http://localhost:3000/questions',
+      successType: LOADED_QUESTIONS
     }
   };
 }
