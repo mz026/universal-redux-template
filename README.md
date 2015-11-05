@@ -1,4 +1,5 @@
 # Universal Redux Template
+This is a universal rendering using Redux and React-router, based on [Redux-Realword-Example](https://github.com/rackt/redux/tree/master/examples/real-world)
 
 # Development:
 - Run `npm start` to host dev environment
