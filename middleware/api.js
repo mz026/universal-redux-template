@@ -12,7 +12,6 @@ export default store => next => action => {
   let request = action[CALL_API];
   let { getState } = store;
   let deferred = Promise.defer();
-  // handle 401 and auth here
   let { method, url, successType } = request;
   superAgent[method](url)
     .end((err, res)=> {

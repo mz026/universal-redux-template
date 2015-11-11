@@ -52,6 +52,7 @@
     "karma-spec-reporter": "0.0.20",
     "karma-webpack": "^1.7.0",
     "mocha": "^2.3.3",
+    "nock": "^2.17.0",
     "nodemon": "^1.6.0",
     "react-addons-test-utils": "^0.14.0",
     "react-transform-catch-errors": "^1.0.0",
