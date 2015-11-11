@@ -1,4 +1,3 @@
-import Promise from 'bluebird';
 import { CALL_API } from 'middleware/api';
 
 export const LOADED_QUESTIONS = 'LOADED_QUESTIONS';
