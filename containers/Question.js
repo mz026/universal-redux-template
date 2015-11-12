@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { loadQuestions } from 'actions/questions';
+import { Link } from 'react-router';
 import _ from 'lodash';
 
 class Question extends Component {
@@ -23,6 +24,7 @@ class Question extends Component {
           })
         }
 
+        <Link to="/">Back to Home</Link>
       </div>
     );
   }
