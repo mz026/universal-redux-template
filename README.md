@@ -4,7 +4,7 @@ This is a universal rendering using Redux and React-router, based on [Redux-Real
 # Development:
 - Run `npm start` to host dev environment
 
-# Test with karma, sinon and chai
+# Test with mocha, sinon and chai
 - Run `npm test`
 
 
@@ -14,7 +14,7 @@ This is a universal rendering using Redux and React-router, based on [Redux-Real
 
 # Toolset:
 - React 0.14
-- React-Router 1.0.0-rc
+- React-Router 1.0.2
 
 # Features:
 - universal rendering
@@ -22,6 +22,4 @@ This is a universal rendering using Redux and React-router, based on [Redux-Real
 
 
 ## Testing:
-- test with mocha + chai: `$ npm test`
-- test with mocha + chai + karma: `$ npm run test:karma`
 - use rewire, sinon to mock
