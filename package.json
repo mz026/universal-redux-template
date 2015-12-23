@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Universal Redux Template",
   "scripts": {
-    "start": "NODE_PATH=. nodemon server & node webpack.server.js & npm run style:watch",
+    "start": "NODE_PATH=. nodemon server & node webpack.server.js",
     "test": "NODE_ENV=test NODE_PATH=. mocha --compilers js:babel/register -r spec/support/setup.mocha.js --recursive 'spec/**/*.test.js' -w",
     "webpack": "webpack",
     "build": "rm -rf dist/; npm run webpack",
@@ -25,6 +25,7 @@
     "assets-webpack-plugin": "^3.2.0",
     "babel": "^5.8.23",
     "bluebird": "^2.10.0",
+    "compression": "^1.6.0",
     "ejs": "^2.3.4",
     "express": "^4.13.3",
     "history": "~1.13.0",

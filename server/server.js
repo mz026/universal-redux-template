@@ -6,6 +6,7 @@ import ReactDOMServer from 'react-dom/server';
 import createLocation from 'history/lib/createLocation'
 import { RoutingContext, match } from 'react-router'
 import createMemoryHistory from 'history/lib/createMemoryHistory';
+import compression from 'compression';
 import Promise from 'bluebird';
 
 import configureStore from 'store/configureStore';
@@ -23,6 +24,7 @@ if ( process.env.NODE_ENV === 'production' ) {
   scriptSrc = 'http://localhost:3001/static/bundle.js';
 }
 
+server.use(compression());
 server.use(Express.static(path.join(__dirname, '..', 'dist')));
 server.set('views', path.join(__dirname, 'views'));
 server.set('view engine', 'ejs');
