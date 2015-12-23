@@ -23,3 +23,7 @@ This is a universal rendering using Redux and React-router, based on [Redux-Real
 
 ## Testing:
 - use rewire, sinon to mock
+
+## TODOs:
+- use gulp to handle style
+- make api path work on remote
