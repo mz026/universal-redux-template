@@ -3,9 +3,16 @@
   "version": "0.0.0",
   "description": "Universal Redux Template",
   "scripts": {
-    "start": "NODE_PATH=. nodemon server & node webpack.server.js",
-    "test": "NODE_ENV=test NODE_PATH=. mocha --compilers js:babel/register -r spec/support/setup.mocha.js --recursive 'spec/**/*.test.js' -w"
+    "start": "NODE_PATH=. nodemon server & node webpack.server.js & npm run style:watch",
+    "test": "NODE_ENV=test NODE_PATH=. mocha --compilers js:babel/register -r spec/support/setup.mocha.js --recursive 'spec/**/*.test.js' -w",
+    "webpack": "webpack",
+    "build": "rm -rf dist/; npm run webpack"
   },
+  "engines": {
+    "node": "^4.2.1",
+    "npm": "^3.4.1"
+  },
+  "postinstall": "npm run build",
   "repository": {
     "type": "git",
     "url": "https://github.com/mz026/universal-redux-template"

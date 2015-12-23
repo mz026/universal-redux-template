@@ -14,8 +14,16 @@ import crateRoutes from 'routes/index';
 import { Provider } from 'react-redux';
 
 let server = new Express();
-let port = 3000;
+let port = process.env.PORT || 3000;
+let scriptSrc;
+if ( process.env.NODE_ENV === 'production' ) {
+  let assets = require('../dist/webpack-assets.json');
+  scriptSrc = `/${assets.main.js}`;
+} else {
+  scriptSrc = 'http://localhost:3001/static/bundle.js';
+}
 
+server.use(Express.static(path.join(__dirname, '..', 'dist')));
 server.set('views', path.join(__dirname, 'views'));
 server.set('view engine', 'ejs');
 
@@ -53,7 +61,7 @@ server.get('*', (req, res)=> {
         );
 
         if ( getCurrentUrl() === reqUrl ) {
-          res.render('index', { html, reduxState });
+          res.render('index', { html, scriptSrc, reduxState });
         } else {
           res.redirect(302, getCurrentUrl());
         }
