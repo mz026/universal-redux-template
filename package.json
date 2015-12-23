@@ -22,6 +22,7 @@
     "url": "https://github.com/mz026/universal-redux-template/issues"
   },
   "dependencies": {
+    "assets-webpack-plugin": "^3.2.0",
     "babel": "^5.8.23",
     "bluebird": "^2.10.0",
     "ejs": "^2.3.4",
