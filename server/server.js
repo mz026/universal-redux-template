@@ -21,7 +21,7 @@ if ( process.env.NODE_ENV === 'production' ) {
   let assets = require('../dist/webpack-assets.json');
   scriptSrc = `/${assets.main.js}`;
 } else {
-  scriptSrc = 'http://localhost:3001/static/bundle.js';
+  scriptSrc = 'http://localhost:3001/static/app.js';
 }
 
 server.use(compression());
