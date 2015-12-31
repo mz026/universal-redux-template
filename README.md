@@ -12,17 +12,17 @@ This is a universal rendering using Redux and React-router, based on [Redux-Real
 - Intro page: `{base_url}`
 - Question Page: `{base_url}/q/:id/:question-title`
 
+# Features:
+- Universal rendering
+- Server side redirect
+- Separate vendor and app js files
+
 # Toolset:
 - React 0.14
 - React-Router 1.0.2
 
-# Features:
-- universal rendering
-- server side redirect
-
-
 ## Testing:
-- use rewire, sinon to mock
+- use Mocha, Chai as testing framework; Rewire, Sinon to mock
 
 ## TODOs:
 - use gulp to handle style
