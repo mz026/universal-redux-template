@@ -8,7 +8,11 @@
     <script type="text/javascript" charset="utf-8">
       window.__REDUX_STATE__ = '<%= reduxState %>';
     </script>
-    <script src="<%= scriptSrc %>"></script>
+
+    <% scriptSrcs.forEach(function(src){ %>
+      <script src="<%= src %>"></script>
+    <% }) %>
+
   </body>
 </html>
 

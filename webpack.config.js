@@ -6,15 +6,25 @@ var DEBUG = !(process.env.NODE_ENV === 'production');
 
 var config = {
   devtool: DEBUG ? 'cheap-module-eval-source-map' : false,
-  entry: [
-    './app'
-  ],
+  entry: {
+    app: './app',
+    vendor: [
+      'react',
+      'react-router',
+      'redux',
+      'react-dom',
+      'lodash',
+      'bluebird',
+      'humps',
+      'history'
+    ]
+  },
   resolve: {
     root: [ __dirname ]
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: DEBUG ? 'bundle.js' : 'bundle.[hash].js'
+    filename: DEBUG ? '[name].js' : '[name].[chunkhash].js'
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -35,12 +45,18 @@ var config = {
 
 
 if (DEBUG) {
-  config.entry = [
+  config.entry.dev = [
     'webpack-dev-server/client?http://localhost:3001',
     'webpack/hot/only-dev-server',
-  ].concat(config.entry);
+  ];
 
-  config.plugins = config.plugins.concat([ new webpack.HotModuleReplacementPlugin() ]);
+  config.plugins = config.plugins.concat([
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      filname: 'vendor.js'
+    })
+  ]);
   config.output.publicPath = 'http://localhost:3001/static/';
   config.module.loaders[0].query = {
     optional: ['runtime'],
@@ -64,6 +80,10 @@ if (DEBUG) {
   };
 } else {
   config.plugins = config.plugins.concat([
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      filname: '[name].[chunkhash].js'
+    }),
     new webpack.optimize.UglifyJsPlugin(),
     new AssetsPlugin({ path: path.join(__dirname, 'dist') })
   ]);

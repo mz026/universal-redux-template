@@ -7,8 +7,12 @@ new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
   hot: true,
   historyApiFallback: true,
+  compress: true,
   stats: {
-    colors: true
+    colors: true,
+    hash: true,
+    timings: true,
+    chunks: false
   }
 }).listen(port, 'localhost', function (err) {
   if (err) {
