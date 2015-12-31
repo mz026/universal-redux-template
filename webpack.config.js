@@ -24,13 +24,12 @@ var config = {
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: DEBUG ? '[name].js' : '[name].[hash].js'
+    filename: DEBUG ? '[name].js' : '[name].[chunkhash].js'
   },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(process.env)
-    }),
-    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js')
+    })
   ],
   module: {
     loaders: [
@@ -51,7 +50,13 @@ if (DEBUG) {
     'webpack/hot/only-dev-server',
   ];
 
-  config.plugins = config.plugins.concat([ new webpack.HotModuleReplacementPlugin() ]);
+  config.plugins = config.plugins.concat([
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      filname: 'vendor.js'
+    })
+  ]);
   config.output.publicPath = 'http://localhost:3001/static/';
   config.module.loaders[0].query = {
     optional: ['runtime'],
@@ -75,6 +80,10 @@ if (DEBUG) {
   };
 } else {
   config.plugins = config.plugins.concat([
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      filname: '[name].[chunkhash].js'
+    }),
     new webpack.optimize.UglifyJsPlugin(),
     new AssetsPlugin({ path: path.join(__dirname, 'dist') })
   ]);
