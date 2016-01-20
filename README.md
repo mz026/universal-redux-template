@@ -8,7 +8,7 @@ A boilerplate doing universal/isomorphic rendering with Redux + React-router + E
 - Run `npm test`
 
 # Features:
-- Universal rendering
+- Universal rendering, with async data support
 - Server side redirect
 - Separate vendor and app js files
 
