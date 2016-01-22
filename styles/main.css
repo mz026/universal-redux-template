@@ -1,0 +1,9 @@
+@import 'module';
+
+body {
+  color: blue;
+
+  .inner {
+    color: red;
+  }
+}
