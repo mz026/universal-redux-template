@@ -1,17 +1,19 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 class Intro extends Component {
   render() {
     return (
-      <div>
+      <div className="intro">
         <h1>Intro Page</h1>
+        <Link to="/q/1234/title">to question</Link>
       </div>
     );
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps() {
   return {};
 }
 
