@@ -6,7 +6,7 @@
     "start": "NODE_PATH=. nodemon server & node webpack.server.js & gulp:css & gulp css:watch",
     "test": "NODE_ENV=test NODE_PATH=. mocha --compilers js:babel/register -r spec/support/setup.mocha.js --recursive 'spec/**/*.test.js' -w",
     "webpack": "webpack",
-    "build": "rm -rf dist/; npm run webpack",
+    "build": "rm -rf dist/; npm run webpack; gulp css:build",
     "postinstall": "npm run build"
   },
   "engines": {
@@ -54,6 +54,7 @@
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-load-plugins": "^1.2.0",
+    "gulp-rev": "^6.0.1",
     "gulp-sass": "^2.1.1",
     "gulp-sourcemaps": "^1.6.0",
     "jsdom": "^7.0.1",
