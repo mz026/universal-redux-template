@@ -31,6 +31,5 @@ A boilerplate doing universal/isomorphic rendering with Redux + React-router + E
 - [Chinese version of the above](http://mz026.logdown.com/posts/308147-hello-redux-2-3-server-rendering)
 
 
-## TODOs:
-- Use gulp to handle style
-- Make api path work on remote
+## Known issues:
+-  api path on remote
