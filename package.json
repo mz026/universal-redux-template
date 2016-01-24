@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Universal Redux Template",
   "scripts": {
-    "start": "NODE_PATH=. nodemon server & node webpack.server.js",
+    "start": "NODE_PATH=. nodemon server & node webpack.server.js & gulp:css & gulp css:watch",
     "test": "NODE_ENV=test NODE_PATH=. mocha --compilers js:babel/register -r spec/support/setup.mocha.js --recursive 'spec/**/*.test.js' -w",
     "webpack": "webpack",
     "build": "rm -rf dist/; npm run webpack",

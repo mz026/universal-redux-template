@@ -10,5 +10,9 @@ gulp.task('css', function() {
              cascade: false
            }))
            .pipe($.sourcemaps.write())
-           .pipe(gulp.dest('./.tmp'));
+           .pipe(gulp.dest('./dist'));
 })
+
+gulp.task('css:watch', function() {
+  gulp.watch('styles/**/*.scss', ['css']);
+});
