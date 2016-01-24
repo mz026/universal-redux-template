@@ -17,17 +17,22 @@ import { Provider } from 'react-redux';
 let server = new Express();
 let port = process.env.PORT || 3000;
 let scriptSrcs;
+
+let styleSrc;
 if ( process.env.NODE_ENV === 'production' ) {
   let assets = require('../dist/webpack-assets.json');
+  let refManifest = require('../dist/rev-manifest.json');
   scriptSrcs = [
     `/${assets.vendor.js}`,
     `/${assets.app.js}`
   ];
+  styleSrc = `/${refManifest['main.css']}`;
 } else {
   scriptSrcs = [
     'http://localhost:3001/static/vendor.js',
     'http://localhost:3001/static/app.js'
   ];
+  styleSrc = '/main.css';
 }
 
 server.use(compression());
@@ -69,7 +74,7 @@ server.get('*', (req, res)=> {
         );
 
         if ( getCurrentUrl() === reqUrl ) {
-          res.render('index', { html, scriptSrcs, reduxState });
+          res.render('index', { html, scriptSrcs, reduxState, styleSrc });
         } else {
           res.redirect(302, getCurrentUrl());
         }
