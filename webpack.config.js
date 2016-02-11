@@ -59,22 +59,9 @@ if (DEBUG) {
   ]);
   config.output.publicPath = 'http://localhost:3001/static/';
   config.module.loaders[0].query = {
-    optional: ['runtime'],
-    stage: 2,
-    env: {
-      development: {
-        plugins: [
-          'react-transform'
-        ],
-        extra: {
-          'react-transform': {
-            'transforms': [{
-              'transform':  'react-transform-hmr',
-              imports: ['react'],
-              locals:  ['module']
-            }]
-          }
-        }
+    "env": {
+      "development": {
+        "presets": ["react-hmre"]
       }
     }
   };

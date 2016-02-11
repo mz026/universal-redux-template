@@ -4,7 +4,7 @@
   "description": "Universal Redux Template",
   "scripts": {
     "start": "NODE_PATH=. nodemon server & node webpack.server.js & gulp css:watch",
-    "test": "NODE_ENV=test NODE_PATH=. mocha --compilers js:babel/register -r spec/support/setup.mocha.js --recursive 'spec/**/*.test.js' -w",
+    "test": "NODE_ENV=test NODE_PATH=. mocha --compilers js:babel-register -r spec/support/setup.mocha.js --recursive 'spec/**/*.test.js' -w",
     "webpack": "webpack",
     "build": "rm -rf dist/; npm run webpack; gulp css:build",
     "postinstall": "npm run build"
@@ -23,7 +23,8 @@
   },
   "dependencies": {
     "assets-webpack-plugin": "^3.2.0",
-    "babel": "^5.8.23",
+    "babel-polyfill": "^6.3.14",
+    "babel-register": "^6.5.1",
     "bluebird": "^2.10.0",
     "compression": "^1.6.0",
     "ejs": "^2.3.4",
@@ -44,11 +45,13 @@
     "superagent": "^1.4.0"
   },
   "devDependencies": {
-    "babel-core": "^5.6.18",
-    "babel-loader": "^5.1.4",
-    "babel-plugin-react-transform": "^1.1.1",
-    "babel-plugin-rewire": "^0.1.22",
-    "babel-runtime": "^5.8.25",
+    "babel-core": "^6.3.15",
+    "babel-loader": "^6.2.0",
+    "babel-plugin-react-transform": "^2.0.0",
+    "babel-plugin-rewire": "^1.0.0-beta-5",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "babel-preset-react-hmre": "^1.0.1",
     "chai": "^3.3.0",
     "chai-as-promised": "^5.1.0",
     "gulp": "^3.9.0",
@@ -64,7 +67,7 @@
     "nodemon": "^1.6.0",
     "react-addons-test-utils": "^0.14.0",
     "react-transform-catch-errors": "^1.0.0",
-    "react-transform-hmr": "^1.0.1",
+    "react-transform-hmr": "^1.0.2",
     "rewire-webpack": "^1.0.0",
     "sinon": "^1.17.1",
     "sinon-chai": "^2.8.0",
