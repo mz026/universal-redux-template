@@ -1,4 +1,3 @@
-import { camelizeKeys } from 'humps';
 import superAgent from 'superagent';
 import Promise from 'bluebird';
 import _ from 'lodash';
