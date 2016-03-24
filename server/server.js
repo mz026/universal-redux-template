@@ -3,9 +3,9 @@ import path from 'path';
 
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import createLocation from 'history/lib/createLocation'
-import { RoutingContext, match } from 'react-router'
-import createMemoryHistory from 'history/lib/createMemoryHistory';
+import { RoutingContext, match } from 'react-router';
+
+import { createMemoryHistory, useQueries } from 'history';
 import compression from 'compression';
 import Promise from 'bluebird';
 
@@ -48,12 +48,10 @@ server.get('/questions', (req, res)=> {
 });
 
 server.get('*', (req, res)=> {
-  let history = createMemoryHistory();
+  let history = useQueries(createMemoryHistory)();
   let store = configureStore();
-
   let routes = crateRoutes(history);
-
-  let location = createLocation(req.url)
+  let location = history.createLocation(req.url);
 
   match({ routes, location }, (error, redirectLocation, renderProps) => {
     if (redirectLocation) {
