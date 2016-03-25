@@ -37,7 +37,7 @@ if ( process.env.NODE_ENV === 'production' ) {
 }
 
 server.use(compression());
-server.use(Express.static(path.join(__dirname, '..', 'dist')));
+server.use(Express.static(path.join(__dirname, '../..', 'dist')));
 server.set('views', path.join(__dirname, 'views'));
 server.set('view engine', 'ejs');
 
