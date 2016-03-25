@@ -1,13 +1,14 @@
 var path = require('path');
 var webpack = require('webpack');
 var AssetsPlugin = require('assets-webpack-plugin');
+var path = require('path');
 
 var DEBUG = !(process.env.NODE_ENV === 'production');
 
 var config = {
   devtool: DEBUG ? 'cheap-module-eval-source-map' : false,
   entry: {
-    app: './app',
+    app: './app/app',
     vendor: [
       'react',
       'react-router',
@@ -20,7 +21,7 @@ var config = {
     ]
   },
   resolve: {
-    root: [ __dirname ]
+    root: [ path.join(__dirname, 'app') ]
   },
   output: {
     path: path.join(__dirname, 'dist'),

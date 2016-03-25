@@ -2,7 +2,7 @@ var gulp = require('gulp'),
   $ = require('gulp-load-plugins')();
 
 gulp.task('css', function() {
-  return gulp.src('styles/main.scss')
+  return gulp.src('app/styles/main.scss')
            .pipe($.sourcemaps.init())
            .pipe($.sass().on('error', $.sass.logError))
            .pipe($.autoprefixer({
@@ -14,7 +14,7 @@ gulp.task('css', function() {
 })
 
 gulp.task('css:watch', function() {
-  gulp.watch('styles/**/*.scss', ['css']);
+  gulp.watch('app/styles/**/*.scss', ['css']);
 });
 
 gulp.task('css:build', ['css'], function() {
