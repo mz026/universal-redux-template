@@ -19,7 +19,7 @@ A boilerplate doing universal/isomorphic rendering with Redux + React-router + E
 - Babel
 - Webpack
 
-## Testing:
+# Testing:
 - Use Mocha, Chai as testing framework; Rewire, Sinon to mock
 
 # Routes Draft:
@@ -30,6 +30,12 @@ A boilerplate doing universal/isomorphic rendering with Redux + React-router + E
 - [Blogpost on Codementor](https://www.codementor.io/reactjs/tutorial/redux-server-rendering-react-router-universal-web-app)
 - [Chinese version of the above](http://mz026.logdown.com/posts/308147-hello-redux-2-3-server-rendering)
 
+# Deploy to Heroku
 
-## Known issues:
--  api path on remote
+To deploy this app to heroku,
+
+- Set up heroku git remote url
+- Set `API_BASE_URL` to heroku config var. (without trailing slash)
+
+Here's a [sample](https://redux-template-test.herokuapp.com/) deployed to heroku: https://redux-template-test.herokuapp.com/
+For this case, the `API_BASE_URL` mention above would be `https://redux-template-test.herokuapp.com`
