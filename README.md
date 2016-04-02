@@ -1,11 +1,29 @@
 # Universal Redux Template
 A boilerplate doing universal/isomorphic rendering with Redux + React-router + Express, based on [Redux-Realword-Example](https://github.com/rackt/redux/tree/master/examples/real-world)
 
-# Development:
-- Run `npm start` to host dev environment
+# Philosophy
 
-# Test with mocha, sinon and chai
-- Run `npm test`
+To bootstrap a React app development environment is not an easy task, there are so many libraries to setup, including webpack, babel, testing stuff and others. I'd like this boilerplate to be a ready-to-use one *with the essential tools and the simplest logic that just work* to build a universal rendering React + Redux app. That's why there is no fancy stuff in this app, since it's a basis of your killer app rather than a showcase one.
+
+# How to use this template?
+
+- clone this app and name it as whatever your want:
+`$ git clone https://github.com/mz026/universal-redux-template.git my-killer-app`
+
+- remove the `.git` folder since you won't need the history of this boilerplate:
+`$ cd my-killer-app; rm -rf .git`
+
+- start out a new git history:
+`$ git init`
+
+- Install dependencies:
+`$ npm install`
+
+- Host dev environment and start to build something chaning the world!
+`$ npm start`
+
+- To run the test with Mocha, Sinon and Chai:
+`$ npm test`
 
 # Features:
 - Universal rendering, with async data support
