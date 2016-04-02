@@ -5,7 +5,7 @@ export function loadQuestions() {
   return {
     [CALL_API]: {
       method: 'get',
-      url: 'http://localhost:3000/questions',
+      path: '/questions',
       successType: LOADED_QUESTIONS
     }
   };

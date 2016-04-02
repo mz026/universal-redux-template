@@ -13,7 +13,7 @@ describe('Action::Question', function(){
       // verify
       expect(action[CALL_API]).to.deep.equal({
         method: 'get',
-        url: 'http://localhost:3000/questions',
+        path: '/questions',
         successType: ActionType.LOADED_QUESTIONS
       });
     });
