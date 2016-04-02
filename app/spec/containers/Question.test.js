@@ -2,7 +2,7 @@ import Container, { Question } from 'containers/Question';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 
-describe.only('Container::Question', function(){
+describe('Container::Question', function(){
   let props;
   let Link;
   beforeEach(function(){
