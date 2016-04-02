@@ -1,6 +1,7 @@
 import superAgent from 'superagent';
 import Promise from 'bluebird';
 import _ from 'lodash';
+import config from 'config';
 
 export const CALL_API = Symbol('CALL_API');
 
@@ -11,7 +12,9 @@ export default store => next => action => {
   let request = action[CALL_API];
   let { getState } = store;
   let deferred = Promise.defer();
-  let { method, url, successType } = request;
+  let { method, path, successType } = request;
+  let url = `${config.API_BASE_URL}${path}`
+
   superAgent[method](url)
     .end((err, res)=> {
       if ( !err ) {
