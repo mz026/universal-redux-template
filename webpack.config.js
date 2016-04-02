@@ -3,6 +3,10 @@ var webpack = require('webpack');
 var AssetsPlugin = require('assets-webpack-plugin');
 
 var DEBUG = !(process.env.NODE_ENV === 'production');
+var env = {
+  NODE_ENV: process.env.NODE_ENV,
+  API_BASE_URL: process.env.API_BASE_URL
+};
 
 var config = {
   devtool: DEBUG ? 'cheap-module-eval-source-map' : false,
@@ -28,7 +32,7 @@ var config = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': JSON.stringify(process.env)
+      'process.env': JSON.stringify(env)
     })
   ],
   module: {
