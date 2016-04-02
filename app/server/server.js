@@ -20,8 +20,8 @@ let scriptSrcs;
 
 let styleSrc;
 if ( process.env.NODE_ENV === 'production' ) {
-  let assets = require('../dist/webpack-assets.json');
-  let refManifest = require('../dist/rev-manifest.json');
+  let assets = require('../../dist/webpack-assets.json');
+  let refManifest = require('../../dist/rev-manifest.json');
   scriptSrcs = [
     `/${assets.vendor.js}`,
     `/${assets.app.js}`
