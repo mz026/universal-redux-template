@@ -1,11 +1,12 @@
 import nock from 'nock';
 import apiMiddleware, { CALL_API } from 'middleware/api';
+import config from 'config';
 
 describe('Middleware::Api', function(){
   let store, next;
   let action;
   let successType = 'ON_SUCCESS';
-  let url = 'http://the-url/path';
+  let path = '/the-url/path';
 
   beforeEach(function(){
     store = {};
@@ -13,7 +14,7 @@ describe('Middleware::Api', function(){
     action = {
       [CALL_API]: {
         method: 'get',
-        url,
+        path,
         successType
       }
     };
@@ -30,8 +31,8 @@ describe('Middleware::Api', function(){
   describe('when action is with `CALL_API`', function(){
     let nockScope;
     beforeEach(function(){
-      nockScope = nock(`http://the-url`)
-                    .get('/path');
+      nockScope = nock(config.API_BASE_URL)
+                    .get(path);
     });
     afterEach(function(){
       nock.cleanAll();
