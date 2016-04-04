@@ -2,7 +2,7 @@ import nock from 'nock';
 import apiMiddleware, { CALL_API } from 'middleware/api';
 import config from 'config';
 
-describe.only('Middleware::Api', function(){
+describe('Middleware::Api', function(){
   let store, next;
   let action;
   let successType = 'ON_SUCCESS';
@@ -67,7 +67,7 @@ describe.only('Middleware::Api', function(){
       });
 
       it('invokes optional `afterSuccess` with `getState`', function(done){
-        action[CALL_API].afterSuccess = sinon.spy();
+        action[CALL_API].afterSuccess = sinon.stub();
         store.getState = function() {};
         let promise = apiMiddleware(store)(next)(action);
 
@@ -99,6 +99,19 @@ describe.only('Middleware::Api', function(){
         promise.then(()=> {
           expect(dispatchedAction.type).to.equal('ON_FAILURE');
           expect(dispatchedAction.error.status).to.equal(409);
+          done();
+        });
+      });
+
+      it('invokes `afterError` with getState if provided', function(done){
+        action[CALL_API].afterError = sinon.stub();
+        store.getState = function() {};
+
+        let promise = apiMiddleware(store)(next)(action);
+
+        promise.then(()=> {
+          expect(action[CALL_API].afterError).to
+            .have.been.calledWith({ getState: store.getState})
           done();
         });
       });
