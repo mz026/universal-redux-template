@@ -2,7 +2,7 @@ import nock from 'nock';
 import apiMiddleware, { CALL_API } from 'middleware/api';
 import config from 'config';
 
-describe('Middleware::Api', function(){
+describe.only('Middleware::Api', function(){
   let store, next;
   let action;
   let successType = 'ON_SUCCESS';
@@ -45,24 +45,64 @@ describe('Middleware::Api', function(){
       nockScope.done();
     });
 
-    it('resolves returned promise when response when success', function(){
-      nockScope = nockScope.reply(200, { status: 'ok' });
-
-      let promise = apiMiddleware(store)(next)(action);
-
-      return expect(promise).to.be.fulfilled;
-    });
-    it('dispatch successType with response when success', function(done){
-      nockScope = nockScope.reply(200, { status: 'ok' });
-      let promise = apiMiddleware(store)(next)(action);
-
-      promise.then(()=> {
-        expect(next).to.have.been.calledWith({
-          type: successType,
-          response: { status: 'ok' }
-        });
-        done();
+    describe('when API call success', function(){
+      beforeEach(function(){
+        nockScope = nockScope.reply(200, { status: 'ok' });
       });
+      it('resolves returned promise when response', function(){
+        let promise = apiMiddleware(store)(next)(action);
+
+        return expect(promise).to.be.fulfilled;
+      });
+      it('dispatches successType with response', function(done){
+        let promise = apiMiddleware(store)(next)(action);
+
+        promise.then(()=> {
+          expect(next).to.have.been.calledWith({
+            type: successType,
+            response: { status: 'ok' }
+          });
+          done();
+        });
+      });
+
+      it('invokes optional `afterSuccess` with `getState`', function(done){
+        action[CALL_API].afterSuccess = sinon.spy();
+        store.getState = function() {};
+        let promise = apiMiddleware(store)(next)(action);
+
+        promise.then(()=> {
+          expect(action[CALL_API].afterSuccess).to
+            .have.been.calledWith({ getState: store.getState})
+          done();
+        });
+      });
+    });
+
+    describe('when API call fails', function(){
+      beforeEach(function(){
+        nockScope = nockScope.reply(409, { status: 'not-ok' });
+      });
+      it('resolves returned promise even if request failed', function(){
+        let promise = apiMiddleware(store)(next)(action);
+
+        return expect(promise).to.be.fulfilled;
+      });
+
+      it('dispatches `errorType` with err when failed', function(done){
+        let dispatchedAction, promise;
+        next = (obj)=> { dispatchedAction = obj };
+        action[CALL_API].errorType = 'ON_FAILURE';
+
+        promise = apiMiddleware(store)(next)(action);
+
+        promise.then(()=> {
+          expect(dispatchedAction.type).to.equal('ON_FAILURE');
+          expect(dispatchedAction.error.status).to.equal(409);
+          done();
+        });
+      });
+
     });
   });
 });

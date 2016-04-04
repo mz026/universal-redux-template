@@ -12,12 +12,19 @@ export default store => next => action => {
   let request = action[CALL_API];
   let { getState } = store;
   let deferred = Promise.defer();
-  let { method, path, successType } = request;
+  let { method, path, successType, errorType } = request;
   let url = `${config.API_BASE_URL}${path}`
 
   superAgent[method](url)
     .end((err, res)=> {
-      if ( !err ) {
+      if (err) {
+        if ( errorType ) {
+          next({
+            type: errorType,
+            error: err
+          })
+        }
+      } else {
         next({
           type: successType,
           response: res.body
@@ -26,7 +33,6 @@ export default store => next => action => {
         if (_.isFunction(request.afterSuccess)) {
           request.afterSuccess({ getState });
         }
-
       }
       deferred.resolve();
     });
