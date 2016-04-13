@@ -6,40 +6,41 @@ import config from 'config';
 export const CALL_API = Symbol('CALL_API');
 
 export default store => next => action => {
-  if ( ! action[CALL_API] ) {
+  if (!action[CALL_API]) {
     return next(action);
   }
+
   let request = action[CALL_API];
   let { getState } = store;
-  let deferred = Promise.defer();
   let { method, path, successType, errorType, afterSuccess, afterError } = request;
   let url = `${config.API_BASE_URL}${path}`
 
-  superAgent[method](url)
-    .end((err, res)=> {
-      if (err) {
-        if ( errorType ) {
+  return new Promise((resolve, reject) => {
+    superAgent[method](url)
+      .end((err, res) => {
+        if (err) {
+          if (errorType) {
+            next({
+              type: errorType,
+              error: err,
+            })
+          }
+
+          if (_.isFunction(afterError)) {
+            afterError({ getState });
+          }
+          reject();
+        } else {
           next({
-            type: errorType,
-            error: err
-          })
-        }
+            type: successType,
+            response: res.body
+          });
 
-        if (_.isFunction(afterError)) {
-          afterError({ getState });
+          if (_.isFunction(afterSuccess)) {
+            afterSuccess({ getState });
+          }
+          resolve();
         }
-      } else {
-        next({
-          type: successType,
-          response: res.body
-        });
-
-        if (_.isFunction(afterSuccess)) {
-          afterSuccess({ getState });
-        }
-      }
-      deferred.resolve();
-    });
-
-  return deferred.promise;
+      });
+  });
 };
