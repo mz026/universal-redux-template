@@ -1,0 +1,8 @@
+#!/usr/bin/env node
+
+/**
+ * Usage: ./bin/generate container Dashboard/mentor/SchedulesContainer
+ */
+
+require('babel-register');
+require('./_generate');

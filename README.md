@@ -25,6 +25,11 @@ To bootstrap a React app development environment is not an easy task, there are 
 - To run the test with Mocha, Sinon and Chai:
 `$ npm test`
 
+- To generate a container/component/action and its tests:
+`$ ./bin/generate <type> <path>`
+
+eg: `$ ./bin/generate component myNamespace/MyComponent`
+
 # Features:
 - Universal rendering, with async data support
 - Server side redirect
