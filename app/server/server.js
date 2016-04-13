@@ -47,7 +47,7 @@ server.get('/questions', (req, res)=> {
   res.send(questions);
 });
 
-server.get('*', (req, res)=> {
+server.get('*', (req, res, next)=> {
   let history = useQueries(createMemoryHistory)();
   let store = configureStore();
   let routes = crateRoutes(history);
@@ -78,6 +78,10 @@ server.get('*', (req, res)=> {
           res.redirect(302, getCurrentUrl());
         }
         unsubscribe();
+      })
+      .catch((err)=> {
+        unsubscribe();
+        next(err);
       });
       function getReduxPromise () {
         let { query, params } = renderProps;
@@ -103,6 +107,12 @@ server.get('*', (req, res)=> {
     ];
   }
 });
+
+server.use((err, req, res, next)=> {
+  console.log(err.stack);
+  // TODO report error here or do some further handlings
+  res.status(500).send("something went wrong...")
+})
 
 console.log(`Server is listening to port: ${port}`);
 server.listen(port);

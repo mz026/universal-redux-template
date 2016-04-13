@@ -15,7 +15,7 @@ class Question extends Component {
   render() {
     return (
       <div>
-        <h2>Questionx</h2>
+        <h2>Question</h2>
         {
           _.map(this.props.questions, (q)=> {
             return (
