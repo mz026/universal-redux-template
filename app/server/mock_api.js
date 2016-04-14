@@ -1,18 +1,13 @@
-let _ = require('lodash');
+let _ = require('lodash')
 
 function question (id) {
-  let sampleContent = '--the question content--';
+  let sampleContent = '--the question content--'
   return {
     id,
     content: `sample-${id}: ${sampleContent}`
   }
 }
 
-let questions = [];
-for (var i = 1; i < 11; i += 1) {
-  questions.push(question(i));
-};
+let questions = _.range(1, 10).map((i)=> question(i))
 
-module.exports = {
-  questions
-};
+export { questions }
