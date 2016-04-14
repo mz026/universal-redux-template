@@ -1,8 +1,8 @@
-import Container, { QuestionContainer } from 'containers/Question'
+import Container, { QuestionContainer } from 'containers/Questions'
 import React from 'react'
 import TestUtils from 'react-addons-test-utils'
 
-describe('Container::Question', function(){
+describe('Container::Questions', function(){
   let props
   let Link, Questions
   beforeEach(function(){

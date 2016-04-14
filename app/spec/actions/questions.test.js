@@ -1,20 +1,39 @@
-import { CALL_API } from 'middleware/api'
+import { CALL_API, CHAIN_API } from 'middleware/api'
 
-// setup
 import * as actionCreator from 'actions/questions'
 import * as ActionType from 'actions/questions'
 
 describe('Action::Question', function(){
   describe('#loadQuestions()', function(){
     it('returns action `CALL_API` info', function(){
-      // execute
       let action = actionCreator.loadQuestions()
-
-      // verify
       expect(action[CALL_API]).to.deep.equal({
         method: 'get',
-        path: '/questions',
+        path: '/api/questions',
         successType: ActionType.LOADED_QUESTIONS
+      })
+    })
+  })
+
+  describe('#loadQuestionDetail({id})', function(){
+    let id = 'the-id'
+    it('returns a CHAIN_API to fetch question first', function(){
+      let action = actionCreator.loadQuestionDetail({ id })
+
+      expect(action[CHAIN_API][0]()[CALL_API]).to.deep.equal({
+        method: 'get',
+        path: `/api/questions/${id}`,
+        successType: ActionType.LOADED_QUESTION_DETAIL
+      })
+    })
+    it('fetches user data after fetching question', function(){
+      let action = actionCreator.loadQuestionDetail({ id })
+      let questionRes = { user_id: '1234' }
+
+      expect(action[CHAIN_API][1](questionRes)[CALL_API]).to.deep.equal({
+        method: 'get',
+        path: `/api/users/${questionRes.user_id}`,
+        successType: ActionType.LOADED_QUESTION_USER
       })
     })
   })

@@ -4,8 +4,16 @@ import TestUtils from 'react-addons-test-utils'
 import Questions from 'components/Questions'
 
 describe('Component::::Questions', function(){
-  let props
+  let props, Link
   beforeEach(function(){
+    Link = React.createClass({
+      render() {
+        return (<div>MOCK COMPONENT CLASS</div>)
+      }
+    })
+
+    Questions.__Rewire__('Link', Link)
+
     props = {
       questions: [
         { id: 1, content: 'the-content-1' },
@@ -17,9 +25,9 @@ describe('Component::::Questions', function(){
     return TestUtils.renderIntoDocument(<Questions {...props} />)
   }
 
-  it('can be rendered', function(){
+  it('renders questions', function(){
     let doc = renderDoc()
-    let questionComps = TestUtils.scryRenderedDOMComponentsWithTag(doc, 'p')
+    let questionComps = TestUtils.scryRenderedComponentsWithType(doc, Link)
 
     expect(questionComps.length).to.equal(2)
   })
