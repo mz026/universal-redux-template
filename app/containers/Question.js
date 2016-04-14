@@ -3,8 +3,9 @@ import { connect } from 'react-redux'
 import { loadQuestions } from 'actions/questions'
 import { Link } from 'react-router'
 import _ from 'lodash'
+import Questions from 'components/Questions'
 
-class Question extends Component {
+class QuestionContainer extends Component {
   static fetchData({ store }) {
     return store.dispatch(loadQuestions())
   }
@@ -16,14 +17,7 @@ class Question extends Component {
     return (
       <div>
         <h2>Question</h2>
-        {
-          _.map(this.props.questions, (q)=> {
-            return (
-              <p key={q.id}> { q.content }</p>
-            )
-          })
-        }
-
+        <Questions questions={this.props.questions} />
         <Link to="/">Back to Home</Link>
       </div>
     )
@@ -34,5 +28,5 @@ function mapStateToProps (state) {
   return { questions: state.questions }
 }
 
-export { Question }
-export default connect(mapStateToProps, { loadQuestions })(Question)
+export { QuestionContainer }
+export default connect(mapStateToProps, { loadQuestions })(QuestionContainer)

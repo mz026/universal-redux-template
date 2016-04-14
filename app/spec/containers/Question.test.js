@@ -1,10 +1,10 @@
-import Container, { Question } from 'containers/Question'
+import Container, { QuestionContainer } from 'containers/Question'
 import React from 'react'
 import TestUtils from 'react-addons-test-utils'
 
 describe('Container::Question', function(){
   let props
-  let Link
+  let Link, Questions
   beforeEach(function(){
     props = {
       loadQuestions: sinon.stub(),
@@ -19,17 +19,23 @@ describe('Container::Question', function(){
         return (<div>MOCK COMPONENT CLASS</div>)
       }
     })
+    Questions = React.createClass({
+      render() {
+        return (<div>MOCK COMPONENT CLASS</div>)
+      }
+    })
     Container.__Rewire__('Link', Link)
+    Container.__Rewire__('Questions', Questions)
   })
 
-  it('renders questions according to `props.questions`', function(){
-    let doc = TestUtils.renderIntoDocument(<Question {...props} />)
-    let questionElements = TestUtils.scryRenderedDOMComponentsWithTag(doc, 'p')
+  it('renders Questions with questions in props', function(){
+    let doc = TestUtils.renderIntoDocument(<QuestionContainer {...props} />)
+    let questionsComp = TestUtils.findRenderedComponentWithType(doc, Questions)
 
-    expect(questionElements.length).to.equal(props.questions.length)
+    expect(questionsComp.props.questions).to.equal(props.questions)
   })
   it('renders a link back to `/`', function(){
-    let doc = TestUtils.renderIntoDocument(<Question {...props} />)
+    let doc = TestUtils.renderIntoDocument(<QuestionContainer {...props} />)
 
     let link = TestUtils.findRenderedComponentWithType(doc, Link)
 
