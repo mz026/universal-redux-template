@@ -1,7 +1,6 @@
-import Immutable from 'immutable';
 import * as ActionType from 'actions/PATH_PREFIX/COMPONENT_NAME';
 
-let defaultState = Immutable.fromJS({});
+let defaultState = {};
 
 export default function(state = defaultState, action) {
   switch(action.type) {

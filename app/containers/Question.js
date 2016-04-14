@@ -1,38 +1,34 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { loadQuestions } from 'actions/questions';
-import { Link } from 'react-router';
-import _ from 'lodash';
+import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
+import { loadQuestionDetail } from 'actions/questions'
 
 class Question extends Component {
-  static fetchData({ store }) {
-    return store.dispatch(loadQuestions());
+  static fetchData({ store, params }) {
+    let { id } = params
+    return store.dispatch(loadQuestionDetail({ id }))
   }
-
   componentDidMount() {
-    this.props.loadQuestions();
+    let { id } = this.props.params
+    this.props.loadQuestionDetail({ id })
   }
   render() {
+    let { question } = this.props
     return (
       <div>
-        <h2>Question</h2>
-        {
-          _.map(this.props.questions, (q)=> {
-            return (
-              <p key={q.id}> { q.content }</p>
-            );
-          })
-        }
-
-        <Link to="/">Back to Home</Link>
+        <h2>{ question.content }</h2>
+        <h3> User: {question.user.name} </h3>
       </div>
-    );
+    )
   }
 }
 
 function mapStateToProps (state) {
-  return { questions: state.questions };
+  return { question: state.questionDetail }
 }
 
-export { Question };
-export default connect(mapStateToProps, { loadQuestions })(Question);
+Question.propTypes = {
+  question: PropTypes.object.isRequired
+}
+
+export { Question }
+export default connect(mapStateToProps, { loadQuestionDetail })(Question)
