@@ -5,13 +5,13 @@ import configureStore from 'store/configureStore';
 
 import App from 'containers/App';
 import Intro from 'containers/Intro';
-import Question from 'containers/Question';
+import Questions from 'containers/Questions';
 
 export default function(history) {
   return (
     <Router history={history}>
       <Route path="/" component={App}>
-        <Route path="/q/:questionId/:questionTitle" component={Question} />
+        <Route path="questions" component={Questions} />
         <IndexRoute component={Intro} />
       </Route>
     </Router>

@@ -7,7 +7,7 @@ class Intro extends Component {
     return (
       <div className="intro">
         <h1>Intro Page</h1>
-        <Link to="/q/1234/title">to question</Link>
+        <Link to="/questions">to question</Link>
       </div>
     );
   }

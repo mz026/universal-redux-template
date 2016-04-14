@@ -47,7 +47,7 @@ eg: `$ ./bin/generate component myNamespace/MyComponent`
 
 # Routes Draft:
 - Intro page: `{base_url}`
-- Question Page: `{base_url}/q/:id/:question-title`
+- Question Page: `{base_url}/questions`
 
 # Resources:
 - [Blogpost on Codementor](https://www.codementor.io/reactjs/tutorial/redux-server-rendering-react-router-universal-web-app)
