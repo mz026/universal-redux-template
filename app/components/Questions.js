@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import { Link } from 'react-router'
 
 class Questions extends Component {
   render() {
@@ -8,7 +9,9 @@ class Questions extends Component {
         {
           this.props.questions.map((q)=> {
             return (
-              <p key={q.id}> { q.content }</p>
+              <div key={q.id}>
+                <Link to={`/questions/${q.id}`}> { q.content }</Link>
+              </div>
             )
           })
         }
