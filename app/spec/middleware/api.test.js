@@ -1,29 +1,17 @@
 import nock from 'nock';
-import apiMiddleware, { CALL_API, CHAIN_API, apiChain } from 'middleware/api';
+import apiMiddleware, { CALL_API, CHAIN_API } from 'middleware/api';
 import config from 'config';
-
 import superagent from 'superagent'
 
 describe('Middleware::Api', function(){
   let store, next;
   let action;
-  let successType = 'ON_SUCCESS';
-  let path = '/the-url/path';
-
   beforeEach(function(){
-    store = {
-    };
-    next = sinon.stub();
-    action = {
-      [CALL_API]: {
-        method: 'get',
-        path,
-        successType
-      }
-    };
-  });
+    store = { dispatch: sinon.stub(), getState: sinon.stub() }
+    next = sinon.stub()
+  })
 
-  describe.only('`apiChain` middleware', function(){
+  describe('when called with [CHAIN_API]', function(){
     let path1 = '/the-url/path-1'
     let successType1 = 'ON_SUCCESS_1'
     let successType2 = 'ON_SUCCESS_2'
@@ -87,7 +75,7 @@ describe('Middleware::Api', function(){
       })
 
       it('sends requests to all endpoints', function(done){
-        let promise = apiChain(store)(next)(action)
+        let promise = apiMiddleware(store)(next)(action)
 
         promise.then(()=> {
           nockScope1.done()
@@ -96,7 +84,7 @@ describe('Middleware::Api', function(){
         })
       })
       it('trigger afterSuccess for all endpoints', function(done){
-        let promise = apiChain(store)(next)(action)
+        let promise = apiMiddleware(store)(next)(action)
         promise.then(()=> {
           expect(afterSuccess1).to.have.been.calledWith({ getState: store.getState})
           expect(afterSuccess2).to.have.been.calledWith({ getState: store.getState})
@@ -104,7 +92,7 @@ describe('Middleware::Api', function(){
         })
       })
       it('dispatch successType for all endpoints', function(done){
-        let promise = apiChain(store)(next)(action)
+        let promise = apiMiddleware(store)(next)(action)
         promise.then(()=> {
           expect(store.dispatch).to.have.been
             .calledWith({ type: successType1, response: response1 })
@@ -122,7 +110,7 @@ describe('Middleware::Api', function(){
                                               .reply(400, { id: 'the-res-2' })
       })
       it("sends request until it's failed", function(done){
-        let promise = apiChain(store)(next)(action)
+        let promise = apiMiddleware(store)(next)(action)
         promise.then(()=> {
           nockScope1.done()
           nockScope2.done()
@@ -130,7 +118,7 @@ describe('Middleware::Api', function(){
         })
       })
       it('triggers afterSuccess and dispatches success for the ok ones', function(done){
-        let promise = apiChain(store)(next)(action)
+        let promise = apiMiddleware(store)(next)(action)
         promise.then(()=> {
           expect(store.dispatch).to.have.been.calledWith({
             type: successType1,
@@ -141,7 +129,7 @@ describe('Middleware::Api', function(){
         })
       })
       it('trigger afterError of path2', function(done){
-        let promise = apiChain(store)(next)(action)
+        let promise = apiMiddleware(store)(next)(action)
         promise.then(()=> {
           expect(afterError2).to.have.been.calledWith({ getState: store.getState})
           done()
@@ -152,7 +140,7 @@ describe('Middleware::Api', function(){
         store.dispatch = function(a) {
           dispatchedAction = a
         }
-        let promise = apiChain(store)(next)(action)
+        let promise = apiMiddleware(store)(next)(action)
         promise.then(()=> {
           expect(dispatchedAction.type).to.equal(errorType2)
           expect(dispatchedAction.error).to.be.an.instanceOf(Error)
@@ -163,15 +151,7 @@ describe('Middleware::Api', function(){
   })
 
 
-
-
-
-
-
-
-
-
-  describe('when action is without CALL_API', function(){
+  describe('when action is without CALL_API and CHAIN_API', function(){
     it('passes the action to next middleware', function(){
       action = { type: 'not-CALL_API' };
       apiMiddleware(store)(next)(action);
@@ -180,93 +160,26 @@ describe('Middleware::Api', function(){
   });
 
   describe('when action is with `CALL_API`', function(){
-    let nockScope;
+    let successType = 'ON_SUCCESS';
+    let path = '/the-url/path';
+    let dispatchedAction;
+
     beforeEach(function(){
-      nockScope = nock(config.API_BASE_URL)
-                    .get(path);
+      store.dispatch = function(a) {
+        dispatchedAction = a
+      }
+      action = {
+        [CALL_API]: {
+          method: 'get',
+          path,
+          successType
+        }
+      };
     });
-    afterEach(function(){
-      nock.cleanAll();
-    });
-    it('sends request to `path` with query and body', function(){
-      nockScope = nockScope.reply(200, { status: 'ok' });
-
-      apiMiddleware(store)(next)(action);
-
-      nockScope.done();
-    });
-
-    describe('when API call success', function(){
-      beforeEach(function(){
-        nockScope = nockScope.reply(200, { status: 'ok' });
-      });
-      it('resolves returned promise when response', function(){
-        let promise = apiMiddleware(store)(next)(action);
-
-        return expect(promise).to.be.fulfilled;
-      });
-      it('dispatches successType with response', function(done){
-        let promise = apiMiddleware(store)(next)(action);
-
-        promise.then(()=> {
-          expect(next).to.have.been.calledWith({
-            type: successType,
-            response: { status: 'ok' }
-          });
-          done();
-        });
-      });
-
-      it('invokes optional `afterSuccess` with `getState`', function(done){
-        action[CALL_API].afterSuccess = sinon.stub();
-        store.getState = function() {};
-        let promise = apiMiddleware(store)(next)(action);
-
-        promise.then(()=> {
-          expect(action[CALL_API].afterSuccess).to
-            .have.been.calledWith({ getState: store.getState})
-          done();
-        });
-      });
-    });
-
-    describe('when API call fails', function(){
-      beforeEach(function(){
-        nockScope = nockScope.reply(409, { status: 'not-ok' });
-      });
-      it('resolves returned promise even if request failed', function(){
-        let promise = apiMiddleware(store)(next)(action);
-
-        return expect(promise).to.be.fulfilled;
-      });
-
-      it('dispatches `errorType` with err when failed', function(done){
-        let dispatchedAction, promise;
-        next = (obj)=> { dispatchedAction = obj };
-        action[CALL_API].errorType = 'ON_FAILURE';
-
-        promise = apiMiddleware(store)(next)(action);
-
-        promise.then(()=> {
-          expect(dispatchedAction.type).to.equal('ON_FAILURE');
-          expect(dispatchedAction.error.status).to.equal(409);
-          done();
-        });
-      });
-
-      it('invokes `afterError` with getState if provided', function(done){
-        action[CALL_API].afterError = sinon.stub();
-        store.getState = function() {};
-
-        let promise = apiMiddleware(store)(next)(action);
-
-        promise.then(()=> {
-          expect(action[CALL_API].afterError).to
-            .have.been.calledWith({ getState: store.getState})
-          done();
-        });
-      });
-
-    });
-  });
+    it('forwards it to CHAIN_API as a special case', function(){
+      apiMiddleware(store)(next)(action)
+      expect(dispatchedAction[CHAIN_API].length).to.equal(1)
+      expect(dispatchedAction[CHAIN_API][0]()).to.equal(action)
+    })
+  })
 });

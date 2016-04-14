@@ -4,62 +4,17 @@ import _ from 'lodash';
 import config from 'config';
 
 export const CALL_API = Symbol('CALL_API');
-
-export default store => next => action => {
-  if ( ! action[CALL_API] ) {
-    return next(action);
-  }
-  let request = action[CALL_API];
-  let { getState } = store;
-  let deferred = Promise.defer();
-  let { method, path, successType, errorType, afterSuccess, afterError } = request;
-  let url = `${config.API_BASE_URL}${path}`
-
-  superAgent[method](url)
-    .end((err, res)=> {
-      if (err) {
-        if ( errorType ) {
-          next({
-            type: errorType,
-            error: err
-          })
-        }
-
-        if (_.isFunction(afterError)) {
-          afterError({ getState });
-        }
-      } else {
-        next({
-          type: successType,
-          response: res.body
-        });
-
-        if (_.isFunction(afterSuccess)) {
-          afterSuccess({ getState });
-        }
-      }
-      deferred.resolve();
-    });
-
-  return deferred.promise;
-};
-
-function extractParams (callApi) {
-  let { method, path, successType, errorType, afterSuccess, afterError } = callApi;
-  let url = `${config.API_BASE_URL}${path}`
-
-  return {
-    method,
-    url,
-    successType,
-    errorType,
-    afterSuccess,
-    afterError
-  }
-}
-
 export const CHAIN_API = Symbol('CHAIN_API')
-let apiChain = ({ dispatch, getState }) => next => action => {
+
+export default ({ dispatch, getState }) => next => action => {
+  if (action[CALL_API]) {
+    return dispatch({
+      [CHAIN_API]: [
+        ()=> action
+      ]
+    })
+  }
+
   let deferred = Promise.defer()
 
   if (! action[CHAIN_API]) {
@@ -121,4 +76,16 @@ function createRequestPromise (apiActionCreator, next, getState, dispatch) {
 
 }
 
-export { apiChain }
+function extractParams (callApi) {
+  let { method, path, successType, errorType, afterSuccess, afterError } = callApi;
+  let url = `${config.API_BASE_URL}${path}`
+
+  return {
+    method,
+    url,
+    successType,
+    errorType,
+    afterSuccess,
+    afterError
+  }
+}
