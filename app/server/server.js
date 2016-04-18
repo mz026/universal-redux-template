@@ -10,7 +10,7 @@ import compression from 'compression';
 import Promise from 'bluebird';
 
 import configureStore from 'store/configureStore';
-import crateRoutes from 'routes/index';
+import createRoutes from 'routes/index';
 
 import { Provider } from 'react-redux';
 
@@ -59,7 +59,7 @@ server.get('/api/questions/:id', (req, res)=> {
 server.get('*', (req, res, next)=> {
   let history = useQueries(createMemoryHistory)();
   let store = configureStore();
-  let routes = crateRoutes(history);
+  let routes = createRoutes(history);
   let location = history.createLocation(req.url);
 
   match({ routes, location }, (error, redirectLocation, renderProps) => {
