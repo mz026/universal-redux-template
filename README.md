@@ -60,7 +60,7 @@ Please remove them in `scripts.test` section in `package.json` like this:
 "test": "NODE_ENV=test NODE_PATH=./app mocha --compilers js:babel-register -r app/spec/support/setup.mocha.js --recursive app/spec/**/*.test.js -w"
 ```
 
-(thanks for @jbuffin pointing it out!)
+(thanks [@jbuffin](https://github.com/jbuffin) for pointing it out!)
 
 
 # Resources:
