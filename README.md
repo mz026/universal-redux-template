@@ -49,6 +49,20 @@ eg: `$ ./bin/generate component myNamespace/MyComponent`
 - Intro page: `{base_url}`
 - Question Page: `{base_url}/questions`
 
+# For Windows Users:
+
+## `npm test`:
+
+The single quotes in `npm test` script surrounding path do not work on Windows, while [they're necessary on unix-like machines](https://github.com/mochajs/mocha/issues/1115).
+Please remove them in `scripts.test` section in `package.json` like this:
+
+```
+"test": "NODE_ENV=test NODE_PATH=./app mocha --compilers js:babel-register -r app/spec/support/setup.mocha.js --recursive app/spec/**/*.test.js -w"
+```
+
+(thanks for @jbuffin pointing it out!)
+
+
 # Resources:
 - [Blogpost on Codementor](https://www.codementor.io/reactjs/tutorial/redux-server-rendering-react-router-universal-web-app)
 - [Chinese version of the above](http://mz026.logdown.com/posts/308147-hello-redux-2-3-server-rendering)
