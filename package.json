@@ -5,6 +5,7 @@
   "scripts": {
     "start": "NODE_PATH=./app nodemon app/server & node webpack.server.js & gulp css:watch",
     "test": "NODE_ENV=test NODE_PATH=./app mocha --compilers js:babel-register -r app/spec/support/setup.mocha.js --recursive 'app/spec/**/*.test.js' -w",
+    "test:ci": "NODE_ENV=test NODE_PATH=./app mocha --compilers js:babel-register -r app/spec/support/setup.mocha.js --recursive 'app/spec/**/*.test.js'",
     "webpack": "webpack",
     "build": "rm -rf dist/; npm run webpack; gulp css:build",
     "postinstall": "npm run build"
