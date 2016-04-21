@@ -30,7 +30,7 @@
     "compression": "^1.6.0",
     "ejs": "^2.3.4",
     "express": "^4.13.3",
-    "history": "~1.13.0",
+    "history": "^1.17.0",
     "humps": "^0.6.0",
     "isomorphic-fetch": "^2.1.1",
     "lodash": "^3.10.1",
