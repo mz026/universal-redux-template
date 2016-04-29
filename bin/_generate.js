@@ -1,6 +1,6 @@
 import { execSync } from 'child_process'
 import path from 'path'
-
+import os from 'os'
 
 let srcRoot = path.join(__dirname, '..', 'app')
 let { type, componentName, pathPrefix } = extractArgs()
@@ -64,16 +64,30 @@ function capitalize (str) {
   let lead = str[0] ? str[0].toUpperCase() : '';
   return `${lead}${str.slice(1, str.length)}`
 }
+
 function sed ({ type, pathPrefix, componentName }) {
   console.log('sed...')
+
+  let sedCommand = getSedCommand()
   let pathSubstitution = pathPrefix ? pathPrefix + '/' : ''
   pathSubstitution = pathSubstitution.replace(/\//g, '\\\/')
 
-  execSync(`sed -i 's/COMPONENT_NAME/${componentName}/g' ${codePath({ type, pathPrefix, componentName })}`)
-  execSync(`sed -i 's/COMPONENT_NAME/${componentName}/g' ${testPath({ type, pathPrefix, componentName })}`)
+  execSync(`${sedCommand} 's/COMPONENT_NAME/${componentName}/g' ${codePath({ type, pathPrefix, componentName })}`)
+  execSync(`${sedCommand} 's/COMPONENT_NAME/${componentName}/g' ${testPath({ type, pathPrefix, componentName })}`)
 
-  execSync(`sed -i 's/PATH_PREFIX\\\//${pathSubstitution}/g' ${codePath({ type, pathPrefix, componentName })}`)
-  execSync(`sed -i 's/PATH_PREFIX\\\//${pathSubstitution}/g' ${testPath({ type, pathPrefix, componentName })}`)
+  execSync(`${sedCommand} 's/PATH_PREFIX\\\//${pathSubstitution}/g' ${codePath({ type, pathPrefix, componentName })}`)
+  execSync(`${sedCommand} 's/PATH_PREFIX\\\//${pathSubstitution}/g' ${testPath({ type, pathPrefix, componentName })}`)
 
-  execSync(`sed -i 's/COMPONENT_FULL_NAMESPACE/${testFullNamespace({ pathPrefix, componentName })}/g' ${testPath({ type, pathPrefix, componentName })}`)
+  execSync(`${sedCommand} 's/COMPONENT_FULL_NAMESPACE/${testFullNamespace({ pathPrefix, componentName })}/g' ${testPath({ type, pathPrefix, componentName })}`)
+}
+
+function getSedCommand () {
+  let osType = os.type().toLowerCase()
+  if (osType === 'darwin') {
+    return "sed -i ''"
+  } else if (osType === 'linux') {
+    return "sed -i"
+  } else {
+    throw new Error(`unknown os type ${osType}`)
+  }
 }
