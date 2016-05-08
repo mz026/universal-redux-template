@@ -30,6 +30,9 @@ To bootstrap a React app development environment is not an easy task, there are 
 - To generate a container/component/action and its tests:
 `$ ./bin/generate <type> <path>`
 
+- To update [npm-shrinkwrap](https://docs.npmjs.com/cli/shrinkwrap):
+`$ npm shrinkwrap --dev`
+
 eg: `$ ./bin/generate component myNamespace/MyComponent`
 
 ## Features:
