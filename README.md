@@ -38,7 +38,7 @@ eg: `$ ./bin/generate component myNamespace/MyComponent`
 - Separate vendor and app js files
 
 ## Stack:
-- React 0.14
+- React 15.0.2
 - React-Router 1.0.2
 - Express as isomorphic server
 - Babel
