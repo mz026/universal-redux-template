@@ -40,7 +40,8 @@ describe('Middleware::Api', function(){
             return {
               extra1: 'val1',
               [CALL_API]: {
-                method: 'get',
+                method: 'post',
+                body: { bodyKey: 'body-val' },
                 query: { queryKey: 'query-val' },
                 path: path1,
                 afterSuccess: afterSuccess1,
@@ -70,7 +71,7 @@ describe('Middleware::Api', function(){
     })
     describe('when all API calls are success', function(){
       beforeEach(function(){
-        nockScope1 = nock(config.API_BASE_URL).get(path1)
+        nockScope1 = nock(config.API_BASE_URL).post(path1)
                                               .query({ queryKey: 'query-val' })
                                               .reply(200, response1)
         nockScope2 = nock(config.API_BASE_URL).get('/the-url/the-id-1')
@@ -108,7 +109,7 @@ describe('Middleware::Api', function(){
 
     describe('when one of the apis failed', function(){
       beforeEach(function(){
-        nockScope1 = nock(config.API_BASE_URL).get(path1)
+        nockScope1 = nock(config.API_BASE_URL).post(path1)
                                               .query({ queryKey: 'query-val' })
                                               .reply(200, { id: 'the-id-1' })
         nockScope2 = nock(config.API_BASE_URL).get('/the-url/the-id-1')

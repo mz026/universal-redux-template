@@ -45,6 +45,7 @@ function createRequestPromise (apiActionCreator, next, getState, dispatch) {
     let params = extractParams(apiAction[CALL_API])
 
     superAgent[params.method](params.url)
+      .send(params.body)
       .query(params.query)
       .end((err, res)=> {
         if (err) {
@@ -82,6 +83,7 @@ function extractParams (callApi) {
     method,
     path,
     query,
+    body,
     successType,
     errorType,
     afterSuccess,
@@ -94,6 +96,7 @@ function extractParams (callApi) {
     method,
     url,
     query,
+    body,
     successType,
     errorType,
     afterSuccess,
