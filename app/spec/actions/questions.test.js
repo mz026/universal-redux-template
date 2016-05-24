@@ -28,11 +28,11 @@ describe('Action::Question', function(){
     })
     it('fetches user data after fetching question', function(){
       let action = actionCreator.loadQuestionDetail({ id })
-      let questionRes = { user_id: '1234' }
+      let questionRes = { userId: '1234' }
 
       expect(action[CHAIN_API][1](questionRes)[CALL_API]).to.deep.equal({
         method: 'get',
-        path: `/api/users/${questionRes.user_id}`,
+        path: `/api/users/${questionRes.userId}`,
         successType: ActionType.LOADED_QUESTION_USER
       })
     })

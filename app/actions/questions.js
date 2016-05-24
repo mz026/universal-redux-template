@@ -29,7 +29,7 @@ export function loadQuestionDetail ({ id }) {
         return {
           [CALL_API]: {
             method: 'get',
-            path: `/api/users/${question.user_id}`,
+            path: `/api/users/${question.userId}`,
             successType: LOADED_QUESTION_USER
           }
         }
