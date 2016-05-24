@@ -1,20 +1,12 @@
 import React from 'react'
-import TestUtils from 'react-addons-test-utils'
-
+import { shallow } from 'enzyme'
+import { Link } from 'react-router'
 import Questions from 'components/Questions'
 import Immutable from 'immutable'
 
 describe('Component::Questions', function(){
-  let props, Link
+  let props
   beforeEach(function(){
-    Link = React.createClass({
-      render() {
-        return (<div>MOCK COMPONENT CLASS</div>)
-      }
-    })
-
-    Questions.__Rewire__('Link', Link)
-
     props = {
       questions: Immutable.fromJS([
         { id: 1, content: 'the-content-1' },
@@ -23,13 +15,13 @@ describe('Component::Questions', function(){
     }
   })
   function renderDoc () {
-    return TestUtils.renderIntoDocument(<Questions {...props} />)
+    return shallow(<Questions {...props} />)
   }
 
   it('renders questions', function(){
     let doc = renderDoc()
-    let questionComps = TestUtils.scryRenderedComponentsWithType(doc, Link)
+    let questionComps = doc.find(Link)
 
-    expect(questionComps.length).to.equal(2)
+    expect(questionComps.length).to.equal(props.questions.size)
   })
 })

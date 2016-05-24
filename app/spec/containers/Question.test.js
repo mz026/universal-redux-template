@@ -1,13 +1,13 @@
 import React from 'react'
-import TestUtils from 'react-addons-test-utils'
 import Immutable from 'immutable'
 import Container, { Question } from 'containers/Question'
+import { mount } from 'enzyme'
 
 describe('Container::Question', function(){
   let props
 
   function renderDoc () {
-    return TestUtils.renderIntoDocument(<Question {...props}/>)
+    return mount(<Question {...props}/>)
   }
   beforeEach(function(){
     props = {

@@ -58,6 +58,7 @@
     "chai-as-promised": "^5.1.0",
     "concurrently": "^2.0.0",
     "cross-env": "^1.0.7",
+    "enzyme": "^2.3.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-load-plugins": "^1.2.0",

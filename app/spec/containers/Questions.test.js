@@ -1,45 +1,33 @@
-import Container, { QuestionContainer } from 'containers/Questions'
+import { QuestionContainer } from 'containers/Questions'
+import Questions from 'components/Questions'
+import { Link } from 'react-router'
 import React from 'react'
-import TestUtils from 'react-addons-test-utils'
+import { shallow } from 'enzyme'
+import Immutable from 'immutable'
 
 describe('Container::Questions', function(){
   let props
-  let Link, Questions
   beforeEach(function(){
     props = {
       loadQuestions: sinon.stub(),
-      questions: [
+      questions: Immutable.fromJS([
         { id: 1, content: 'question content 1' },
         { id: 2, content: 'question content 1' }
-      ]
+      ])
     }
-
-    Link = React.createClass({
-      render() {
-        return (<div>MOCK COMPONENT CLASS</div>)
-      }
-    })
-    Questions = React.createClass({
-      render() {
-        return (<div>MOCK COMPONENT CLASS</div>)
-      }
-    })
-    Container.__Rewire__('Link', Link)
-    Container.__Rewire__('Questions', Questions)
   })
 
   it('renders Questions with questions in props', function(){
-    let doc = TestUtils.renderIntoDocument(<QuestionContainer {...props} />)
-    let questionsComp = TestUtils.findRenderedComponentWithType(doc, Questions)
+    let doc = shallow(<QuestionContainer {...props}/>)
+    let questionsComp = doc.find(Questions)
 
-    expect(questionsComp.props.questions).to.equal(props.questions)
+    expect(questionsComp.props().questions).to.equal(props.questions)
   })
   it('renders a link back to `/`', function(){
-    let doc = TestUtils.renderIntoDocument(<QuestionContainer {...props} />)
+    let doc = shallow(<QuestionContainer {...props}/>)
+    let link = doc.find('Link')
 
-    let link = TestUtils.findRenderedComponentWithType(doc, Link)
-
-    expect(link).not.to.be.undefined
-    expect(link.props.to).to.equal('/')
+    expect(link).to.exist
+    expect(link.props().to).to.equal('/')
   })
 })
