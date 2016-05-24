@@ -99,9 +99,9 @@ describe('Middleware::Api', function(){
         let promise = apiMiddleware(store)(next)(action)
         promise.then(()=> {
           expect(store.dispatch).to.have.been
-            .calledWith({ type: successType1, response: response1 })
+            .calledWith({ type: successType1, response: response1, extra1: 'val1' })
           expect(store.dispatch).to.have.been
-            .calledWith({ type: successType2, response: response2 })
+            .calledWith({ type: successType2, response: response2, extra2: 'val2' })
           done()
         })
       })
@@ -127,6 +127,7 @@ describe('Middleware::Api', function(){
         let promise = apiMiddleware(store)(next)(action)
         promise.then(()=> {
           expect(store.dispatch).to.have.been.calledWith({
+            extra1: 'val1',
             type: successType1,
             response: response1
           })

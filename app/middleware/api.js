@@ -38,6 +38,14 @@ export default ({ dispatch, getState }) => next => action => {
   return deferred.promise
 }
 
+function actionWith (action, toMerge) {
+  let ac = _.cloneDeep(action)
+  if (ac[CALL_API]) {
+    ac[CALL_API].delete
+  }
+  return _.merge(ac, toMerge)
+}
+
 function createRequestPromise (apiActionCreator, next, getState, dispatch) {
   return (prevBody)=> {
     let apiAction = apiActionCreator(prevBody)
@@ -50,10 +58,10 @@ function createRequestPromise (apiActionCreator, next, getState, dispatch) {
       .end((err, res)=> {
         if (err) {
           if ( params.errorType ) {
-            dispatch({
+            dispatch(actionWith(apiAction, {
               type: params.errorType,
               error: err
-            })
+            }))
           }
 
           if (_.isFunction(params.afterError)) {
@@ -61,10 +69,10 @@ function createRequestPromise (apiActionCreator, next, getState, dispatch) {
           }
           deferred.reject()
         } else {
-          dispatch({
+          dispatch(actionWith(apiAction, {
             type: params.successType,
             response: res.body
-          })
+          }))
 
           if (_.isFunction(params.afterSuccess)) {
             params.afterSuccess({ getState })
@@ -75,7 +83,6 @@ function createRequestPromise (apiActionCreator, next, getState, dispatch) {
 
     return deferred.promise
   }
-
 }
 
 function extractParams (callApi) {
