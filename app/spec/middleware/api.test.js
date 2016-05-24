@@ -1,11 +1,12 @@
-import nock from 'nock';
-import apiMiddleware, { CALL_API, CHAIN_API } from 'middleware/api';
-import config from 'config';
+import nock from 'nock'
+import apiMiddleware, { CALL_API, CHAIN_API } from 'middleware/api'
+import config from 'config'
 import superagent from 'superagent'
+import { camelizeKeys } from 'humps'
 
 describe('Middleware::Api', function(){
-  let store, next;
-  let action;
+  let store, next
+  let action
   beforeEach(function(){
     store = { dispatch: sinon.stub(), getState: sinon.stub() }
     next = sinon.stub()
@@ -20,7 +21,7 @@ describe('Middleware::Api', function(){
     let nockScope1, nockScope2
 
     let afterSuccess1, afterSuccess2
-    let response1 = { id: 'the-id-1' }
+    let response1 = { id: 'the-id-1', to_be_camelized: 'snake-val' }
     let response2 = { id: 'the-res-2' }
 
     let afterError2
@@ -66,16 +67,23 @@ describe('Middleware::Api', function(){
       }
     })
 
+    function nockRequest1 () {
+      return nock(config.API_BASE_URL).post(path1)
+                                      .query({ queryKey: 'query-val' })
+                                      .reply(200, response1)
+    }
+    function nockRequest2 (status = 200) {
+      return nock(config.API_BASE_URL).get('/the-url/the-id-1')
+                                      .reply(status, response2)
+    }
+
     afterEach(function(){
-      nock.cleanAll();
+      nock.cleanAll()
     })
     describe('when all API calls are success', function(){
       beforeEach(function(){
-        nockScope1 = nock(config.API_BASE_URL).post(path1)
-                                              .query({ queryKey: 'query-val' })
-                                              .reply(200, response1)
-        nockScope2 = nock(config.API_BASE_URL).get('/the-url/the-id-1')
-                                              .reply(200, response2)
+        nockScope1 = nockRequest1()
+        nockScope2 = nockRequest2()
       })
 
       it('sends requests to all endpoints', function(done){
@@ -99,9 +107,9 @@ describe('Middleware::Api', function(){
         let promise = apiMiddleware(store)(next)(action)
         promise.then(()=> {
           expect(store.dispatch).to.have.been
-            .calledWith({ type: successType1, response: response1, extra1: 'val1' })
+            .calledWith({ type: successType1, response: camelizeKeys(response1), extra1: 'val1' })
           expect(store.dispatch).to.have.been
-            .calledWith({ type: successType2, response: response2, extra2: 'val2' })
+            .calledWith({ type: successType2, response: camelizeKeys(response2), extra2: 'val2' })
           done()
         })
       })
@@ -109,11 +117,8 @@ describe('Middleware::Api', function(){
 
     describe('when one of the apis failed', function(){
       beforeEach(function(){
-        nockScope1 = nock(config.API_BASE_URL).post(path1)
-                                              .query({ queryKey: 'query-val' })
-                                              .reply(200, { id: 'the-id-1' })
-        nockScope2 = nock(config.API_BASE_URL).get('/the-url/the-id-1')
-                                              .reply(400, { id: 'the-res-2' })
+        nockScope1 = nockRequest1()
+        nockScope2 = nockRequest2(400)
       })
       it("sends request until it's failed", function(done){
         let promise = apiMiddleware(store)(next)(action)
@@ -129,7 +134,7 @@ describe('Middleware::Api', function(){
           expect(store.dispatch).to.have.been.calledWith({
             extra1: 'val1',
             type: successType1,
-            response: response1
+            response: camelizeKeys(response1)
           })
           expect(afterSuccess1).to.have.been.calledWith({ getState: store.getState })
           done()
@@ -160,16 +165,16 @@ describe('Middleware::Api', function(){
 
   describe('when action is without CALL_API and CHAIN_API', function(){
     it('passes the action to next middleware', function(){
-      action = { type: 'not-CALL_API' };
-      apiMiddleware(store)(next)(action);
-      expect(next).to.have.been.calledWith(action);
-    });
-  });
+      action = { type: 'not-CALL_API' }
+      apiMiddleware(store)(next)(action)
+      expect(next).to.have.been.calledWith(action)
+    })
+  })
 
   describe('when action is with `CALL_API`', function(){
-    let successType = 'ON_SUCCESS';
-    let path = '/the-url/path';
-    let dispatchedAction;
+    let successType = 'ON_SUCCESS'
+    let path = '/the-url/path'
+    let dispatchedAction
 
     beforeEach(function(){
       store.dispatch = function(a) {
@@ -181,12 +186,12 @@ describe('Middleware::Api', function(){
           path,
           successType
         }
-      };
-    });
+      }
+    })
     it('forwards it to CHAIN_API as a special case', function(){
       apiMiddleware(store)(next)(action)
       expect(dispatchedAction[CHAIN_API].length).to.equal(1)
       expect(dispatchedAction[CHAIN_API][0]()).to.equal(action)
     })
   })
-});
+})

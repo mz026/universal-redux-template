@@ -2,6 +2,7 @@ import superAgent from 'superagent'
 import Promise, { using } from 'bluebird'
 import _ from 'lodash'
 import config from 'config'
+import { camelizeKeys } from 'humps'
 
 export const CALL_API = Symbol('CALL_API')
 export const CHAIN_API = Symbol('CHAIN_API')
@@ -69,15 +70,16 @@ function createRequestPromise (apiActionCreator, next, getState, dispatch) {
           }
           deferred.reject()
         } else {
+          let resBody = camelizeKeys(res.body)
           dispatch(actionWith(apiAction, {
             type: params.successType,
-            response: res.body
+            response: resBody
           }))
 
           if (_.isFunction(params.afterSuccess)) {
             params.afterSuccess({ getState })
           }
-          deferred.resolve(res.body)
+          deferred.resolve(resBody)
         }
       })
 
