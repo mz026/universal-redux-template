@@ -24,7 +24,7 @@ To bootstrap a React app development environment is not an easy task, there are 
 - Host dev environment and start to build something chaning the world!
 `$ npm start`
 
-- To run the test with Mocha, Sinon and Chai:
+- To run the test with Mocha, Enzyme, Sinon and Chai:
 `$ npm test`
 
 - To generate a container/component/action and its tests:
@@ -50,7 +50,10 @@ eg: `$ ./bin/generate component myNamespace/MyComponent`
 - Webpack
 
 ## Testing:
-- Use Mocha, Chai as testing framework; Rewire, Sinon to mock
+- [Mocha](https://mochajs.org/) as testing framework
+- [Chai](http://chaijs.com/) as assertion library
+- [Rewire](https://github.com/speedskater/babel-plugin-rewire) and [Sinon](http://sinonjs.org/) to mock/stub
+- [Enzyme](http://airbnb.io/enzyme/index.html) to do React rendering
 
 ## Routes Draft:
 - Intro page: `{base_url}`
