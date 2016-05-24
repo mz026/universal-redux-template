@@ -1635,6 +1635,11 @@
       "from": "ignore-by-default@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/ignore-by-default/-/ignore-by-default-1.0.1.tgz"
     },
+    "immutable": {
+      "version": "3.8.1",
+      "from": "immutable@latest",
+      "resolved": "https://registry.npmjs.org/immutable/-/immutable-3.8.1.tgz"
+    },
     "imurmurhash": {
       "version": "0.1.4",
       "from": "imurmurhash@>=0.1.4 <0.2.0",

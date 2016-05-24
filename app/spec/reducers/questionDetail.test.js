@@ -1,5 +1,6 @@
 import reducer from 'reducers/questionDetail'
 import * as ActionType from 'actions/questions'
+import Immutable from 'immutable'
 
 describe('Reducer::::QuestionDetail', function(){
   describe('on ACTION_TYPE', function(){
@@ -12,7 +13,7 @@ describe('Reducer::::QuestionDetail', function(){
 
         let newState = reducer(undefined, action)
 
-        expect(newState).to.deep.equal({ user: {}, key: 'val' })
+        expect(newState.toJS()).to.deep.equal({ user: {}, key: 'val' })
       })
     })
 
@@ -22,13 +23,13 @@ describe('Reducer::::QuestionDetail', function(){
           type: ActionType.LOADED_QUESTION_USER,
           response: { key: 'val' }
         }
-        let initState = {
+        let initState = Immutable.fromJS({
           id: 'the-question-id',
           user: {}
-        }
+        })
         let newState = reducer(initState, action)
 
-        expect(newState).to.deep.equal({
+        expect(newState.toJS()).to.deep.equal({
           id: 'the-question-id',
           user: {
             key: 'val'

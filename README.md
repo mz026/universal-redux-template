@@ -39,10 +39,12 @@ eg: `$ ./bin/generate component myNamespace/MyComponent`
 - Universal rendering, with async data support
 - Server side redirect
 - Separate vendor and app js files
+- Use [Immutable](https://facebook.github.io/immutable-js/) as store data
 
 ## Stack:
 - React 15.0.2
 - React-Router 1.0.2
+- Immutable
 - Express as isomorphic server
 - Babel
 - Webpack

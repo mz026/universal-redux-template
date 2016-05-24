@@ -2,8 +2,9 @@ import React from 'react'
 import TestUtils from 'react-addons-test-utils'
 
 import Questions from 'components/Questions'
+import Immutable from 'immutable'
 
-describe('Component::::Questions', function(){
+describe('Component::Questions', function(){
   let props, Link
   beforeEach(function(){
     Link = React.createClass({
@@ -15,10 +16,10 @@ describe('Component::::Questions', function(){
     Questions.__Rewire__('Link', Link)
 
     props = {
-      questions: [
+      questions: Immutable.fromJS([
         { id: 1, content: 'the-content-1' },
         { id: 2, content: 'the-content-2' }
-      ]
+      ])
     }
   })
   function renderDoc () {

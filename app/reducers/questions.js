@@ -1,13 +1,15 @@
-import * as ActionType from 'actions/questions';
+import * as ActionType from 'actions/questions'
+import Immutable from 'immutable'
 
-function questionsReducer (state = [], action) {
+let defaultState = Immutable.fromJS([])
+function questionsReducer (state = defaultState, action) {
   switch(action.type) {
     case ActionType.LOADED_QUESTIONS:
-      return action.response;
-      break;
+      return Immutable.fromJS(action.response)
+      break
     default:
-      return state;
+      return state
   }
 }
 
-export default questionsReducer;
+export default questionsReducer

@@ -1,20 +1,18 @@
-import * as ActionType from 'actions/questions';
+import * as ActionType from 'actions/questions'
 import _ from 'lodash'
+import Immutable from 'immutable'
 
-let defaultState = {
+let defaultState = Immutable.fromJS({
   user: {}
-};
+})
 
 export default function(state = defaultState, action) {
-  let cloned
   switch(action.type) {
     case ActionType.LOADED_QUESTION_DETAIL:
-      cloned = _.clone(state)
-      return _.merge(cloned, action.response)
+      return state.merge(action.response)
 
     case ActionType.LOADED_QUESTION_USER:
-      cloned = _.clone(state)
-      return _.merge(cloned, { user: action.response })
+      return state.merge({ user: action.response })
 
     default:
       return state

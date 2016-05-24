@@ -32,6 +32,7 @@
     "express": "^4.13.3",
     "history": "^1.17.0",
     "humps": "^0.6.0",
+    "immutable": "^3.8.1",
     "isomorphic-fetch": "^2.1.1",
     "lodash": "^3.10.1",
     "normalizr": "^1.0.0",

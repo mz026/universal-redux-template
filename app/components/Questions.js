@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
+import { List } from 'immutable'
 
 class Questions extends Component {
   render() {
@@ -8,9 +9,10 @@ class Questions extends Component {
         Questions component
         {
           this.props.questions.map((q)=> {
+            let id = q.get('id')
             return (
-              <div key={q.id}>
-                <Link to={`/questions/${q.id}`}> { q.content }</Link>
+              <div key={id}>
+                <Link to={`/questions/${id}`}> { q.get('content') }</Link>
               </div>
             )
           })
@@ -21,7 +23,7 @@ class Questions extends Component {
 }
 
 Questions.propTypes = {
-  questions: PropTypes.array.isRequired
+  questions: PropTypes.instanceOf(List).isRequired
 }
 
 export default Questions
