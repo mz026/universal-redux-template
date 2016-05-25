@@ -43,7 +43,7 @@ eg: `$ ./bin/generate component myNamespace/MyComponent`
 
 ## Stack:
 - React 15.0.2
-- React-Router 1.0.2
+- React-Router 2.4.1
 - Immutable
 - Express as isomorphic server
 - Babel

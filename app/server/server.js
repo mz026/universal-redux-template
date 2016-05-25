@@ -3,7 +3,7 @@ import path from 'path';
 
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import { RoutingContext, match } from 'react-router';
+import { RouterContext, match } from 'react-router';
 
 import { createMemoryHistory, useQueries } from 'history';
 import compression from 'compression';
@@ -77,7 +77,7 @@ server.get('*', (req, res, next)=> {
         let reduxState = escape(JSON.stringify(store.getState()));
         let html = ReactDOMServer.renderToString(
           <Provider store={store}>
-            { <RoutingContext {...renderProps}/> }
+            { <RouterContext {...renderProps}/> }
           </Provider>
         );
 
