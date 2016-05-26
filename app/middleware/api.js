@@ -11,36 +11,44 @@ let defaultInterceptor = function({ handleError, err, replay, getState }) {
   handleError(err)
 }
 
-export default ({ errorInterceptor = defaultInterceptor }) => ({ dispatch, getState }) => next => action => {
-  if (action[CALL_API]) {
-    return dispatch({
-      [CHAIN_API]: [
-        ()=> action
-      ]
+export default ({ errorInterceptor = defaultInterceptor }) => {
+  return ({ dispatch, getState }) => next => action => {
+    if (action[CALL_API]) {
+      return dispatch({
+        [CHAIN_API]: [
+          ()=> action
+        ]
+      })
+    }
+
+    let deferred = Promise.defer()
+
+    if (! action[CHAIN_API]) {
+      return next(action)
+    }
+
+    let promiseCreators = action[CHAIN_API].map((createCallApiAction)=> {
+      return createRequestPromise({
+        createCallApiAction,
+        next,
+        getState,
+        dispatch,
+        errorInterceptor
+      })
     })
+
+    let overall = promiseCreators.reduce((promise, createReqPromise)=> {
+      return promise.then((body)=> {
+        return createReqPromise(body)
+      })
+    }, Promise.resolve())
+
+    overall.finally(()=> {
+      deferred.resolve()
+    }).catch(()=> {})
+
+    return deferred.promise
   }
-
-  let deferred = Promise.defer()
-
-  if (! action[CHAIN_API]) {
-    return next(action)
-  }
-
-  let promiseCreators = action[CHAIN_API].map((createCallApiAction)=> {
-    return createRequestPromise({ createCallApiAction, next, getState, dispatch, errorInterceptor })
-  })
-
-  let overall = promiseCreators.reduce((promise, createReqPromise)=> {
-    return promise.then((body)=> {
-      return createReqPromise(body)
-    })
-  }, Promise.resolve())
-
-  overall.finally(()=> {
-    deferred.resolve()
-  }).catch(()=> {})
-
-  return deferred.promise
 }
 
 function actionWith (action, toMerge) {
@@ -54,8 +62,8 @@ function actionWith (action, toMerge) {
 function createRequestPromise ({ createCallApiAction, next, getState, dispatch, errorInterceptor }) {
   return (prevBody)=> {
     let apiAction = createCallApiAction(prevBody)
-    let deferred = Promise.defer()
     let params = extractParams(apiAction[CALL_API])
+    let deferred = Promise.defer()
 
     function sendRequest () {
       superAgent[params.method](params.url)
