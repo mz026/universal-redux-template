@@ -11,7 +11,7 @@ let defaultInterceptor = function({ handleError, err, replay, getState }) {
   handleError(err)
 }
 
-export default ({ interceptor = defaultInterceptor }) => ({ dispatch, getState }) => next => action => {
+export default ({ errorInterceptor = defaultInterceptor }) => ({ dispatch, getState }) => next => action => {
   if (action[CALL_API]) {
     return dispatch({
       [CHAIN_API]: [
@@ -27,7 +27,7 @@ export default ({ interceptor = defaultInterceptor }) => ({ dispatch, getState }
   }
 
   let promiseCreators = action[CHAIN_API].map((createCallApiAction)=> {
-    return createRequestPromise({ createCallApiAction, next, getState, dispatch, interceptor })
+    return createRequestPromise({ createCallApiAction, next, getState, dispatch, errorInterceptor })
   })
 
   let overall = promiseCreators.reduce((promise, createReqPromise)=> {
@@ -51,7 +51,7 @@ function actionWith (action, toMerge) {
   return _.merge(ac, toMerge)
 }
 
-function createRequestPromise ({ createCallApiAction, next, getState, dispatch, interceptor }) {
+function createRequestPromise ({ createCallApiAction, next, getState, dispatch, errorInterceptor }) {
   return (prevBody)=> {
     let apiAction = createCallApiAction(prevBody)
     let deferred = Promise.defer()
@@ -63,7 +63,7 @@ function createRequestPromise ({ createCallApiAction, next, getState, dispatch, 
         .query(params.query)
         .end((err, res)=> {
           if (err) {
-            interceptor({
+            errorInterceptor({
               handleError,
               err,
               getState,

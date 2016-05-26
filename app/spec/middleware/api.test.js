@@ -163,7 +163,7 @@ describe('Middleware::Api', function(){
         })
       })
 
-      describe('Interceptor behaviors', function(){
+      describe('errorInterceptor behaviors', function(){
         it('handles dispatch and rejection stuff via `handleError`', function(done){
           let spy = sinon.spy()
           let dispatchedAction
@@ -171,7 +171,7 @@ describe('Middleware::Api', function(){
             dispatchedAction = a
           }
           apiMiddleware = createApiMiddleware({
-            interceptor: ({ handleError, err, replay, getState })=> {
+            errorInterceptor: ({ handleError, err, replay, getState })=> {
               spy()
               expect(getState).to.equal(store.getState)
               handleError(err)
@@ -193,7 +193,7 @@ describe('Middleware::Api', function(){
           it('resend the request', function(done){
             let errTime = 0
             apiMiddleware = createApiMiddleware({
-              interceptor: ({ handleError, err, replay, getState })=> {
+              errorInterceptor: ({ handleError, err, replay, getState })=> {
                 if (errTime == 1) {
                   handleError(err)
                 } else {
