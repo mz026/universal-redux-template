@@ -14,7 +14,7 @@ const logger = createLogger({
 
 const createStoreWithMiddleware = applyMiddleware(
   thunkMiddleware,
-  apiMiddleware,
+  apiMiddleware({}),
   logger
 )(createStore);
 
