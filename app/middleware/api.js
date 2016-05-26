@@ -22,13 +22,13 @@ export default ({ dispatch, getState }) => next => action => {
     return next(action)
   }
 
-  let promiseCreators = action[CHAIN_API].map((apiActionCreator)=> {
-    return createRequestPromise(apiActionCreator, next, getState, dispatch)
+  let promiseCreators = action[CHAIN_API].map((createCallApiAction)=> {
+    return createRequestPromise(createCallApiAction, next, getState, dispatch)
   })
 
-  let overall = promiseCreators.reduce((promise, creator)=> {
+  let overall = promiseCreators.reduce((promise, createReqPromise)=> {
     return promise.then((body)=> {
-      return creator(body)
+      return createReqPromise(body)
     })
   }, Promise.resolve())
 
@@ -47,9 +47,9 @@ function actionWith (action, toMerge) {
   return _.merge(ac, toMerge)
 }
 
-function createRequestPromise (apiActionCreator, next, getState, dispatch) {
+function createRequestPromise (createCallApiAction, next, getState, dispatch) {
   return (prevBody)=> {
-    let apiAction = apiActionCreator(prevBody)
+    let apiAction = createCallApiAction(prevBody)
     let deferred = Promise.defer()
     let params = extractParams(apiAction[CALL_API])
 
@@ -58,32 +58,42 @@ function createRequestPromise (apiActionCreator, next, getState, dispatch) {
       .query(params.query)
       .end((err, res)=> {
         if (err) {
-          if ( params.errorType ) {
-            dispatch(actionWith(apiAction, {
-              type: params.errorType,
-              error: err
-            }))
-          }
-
-          if (_.isFunction(params.afterError)) {
-            params.afterError({ getState })
-          }
+          dispatchErrorType(err)
+          processAfterError()
           deferred.reject()
         } else {
           let resBody = camelizeKeys(res.body)
-          dispatch(actionWith(apiAction, {
-            type: params.successType,
-            response: resBody
-          }))
-
-          if (_.isFunction(params.afterSuccess)) {
-            params.afterSuccess({ getState })
-          }
+          dispatchSuccessType(resBody)
+          processAfterSuccess()
           deferred.resolve(resBody)
         }
       })
-
     return deferred.promise
+
+    function dispatchErrorType (err) {
+      if ( params.errorType ) {
+        dispatch(actionWith(apiAction, {
+          type: params.errorType,
+          error: err
+        }))
+      }
+    }
+    function processAfterError () {
+      if (_.isFunction(params.afterError)) {
+        params.afterError({ getState })
+      }
+    }
+    function dispatchSuccessType (resBody) {
+      dispatch(actionWith(apiAction, {
+        type: params.successType,
+        response: resBody
+      }))
+    }
+    function processAfterSuccess () {
+      if (_.isFunction(params.afterSuccess)) {
+        params.afterSuccess({ getState })
+      }
+    }
   }
 }
 

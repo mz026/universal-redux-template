@@ -4,7 +4,7 @@ import config from 'config'
 import superagent from 'superagent'
 import { camelizeKeys } from 'humps'
 
-describe('Middleware::Api', function(){
+describe.only('Middleware::Api', function(){
   let store, next
   let action
   beforeEach(function(){
