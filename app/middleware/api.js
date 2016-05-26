@@ -7,7 +7,11 @@ import { camelizeKeys } from 'humps'
 export const CALL_API = Symbol('CALL_API')
 export const CHAIN_API = Symbol('CHAIN_API')
 
-export default ({ dispatch, getState }) => next => action => {
+let defaultInterceptor = function({ handleError, err, replay, getState }) {
+  handleError(err)
+}
+
+export default ({ interceptor = defaultInterceptor }) => ({ dispatch, getState }) => next => action => {
   if (action[CALL_API]) {
     return dispatch({
       [CHAIN_API]: [
@@ -23,7 +27,7 @@ export default ({ dispatch, getState }) => next => action => {
   }
 
   let promiseCreators = action[CHAIN_API].map((createCallApiAction)=> {
-    return createRequestPromise(createCallApiAction, next, getState, dispatch)
+    return createRequestPromise({ createCallApiAction, next, getState, dispatch, interceptor })
   })
 
   let overall = promiseCreators.reduce((promise, createReqPromise)=> {
@@ -47,28 +51,40 @@ function actionWith (action, toMerge) {
   return _.merge(ac, toMerge)
 }
 
-function createRequestPromise (createCallApiAction, next, getState, dispatch) {
+function createRequestPromise ({ createCallApiAction, next, getState, dispatch, interceptor }) {
   return (prevBody)=> {
     let apiAction = createCallApiAction(prevBody)
     let deferred = Promise.defer()
     let params = extractParams(apiAction[CALL_API])
 
-    superAgent[params.method](params.url)
-      .send(params.body)
-      .query(params.query)
-      .end((err, res)=> {
-        if (err) {
-          dispatchErrorType(err)
-          processAfterError()
-          deferred.reject()
-        } else {
-          let resBody = camelizeKeys(res.body)
-          dispatchSuccessType(resBody)
-          processAfterSuccess()
-          deferred.resolve(resBody)
-        }
-      })
+    function sendRequest () {
+      superAgent[params.method](params.url)
+        .send(params.body)
+        .query(params.query)
+        .end((err, res)=> {
+          if (err) {
+            interceptor({
+              handleError,
+              err,
+              getState,
+              replay: sendRequest
+            })
+          } else {
+            let resBody = camelizeKeys(res.body)
+            dispatchSuccessType(resBody)
+            processAfterSuccess()
+            deferred.resolve(resBody)
+          }
+        })
+    }
+    sendRequest()
     return deferred.promise
+
+    function handleError (err) {
+      dispatchErrorType(err)
+      processAfterError()
+      deferred.reject()
+    }
 
     function dispatchErrorType (err) {
       if ( params.errorType ) {

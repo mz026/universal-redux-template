@@ -1,19 +1,20 @@
 import nock from 'nock'
-import apiMiddleware, { CALL_API, CHAIN_API } from 'middleware/api'
+import createApiMiddleware, { CALL_API, CHAIN_API } from 'middleware/api'
 import config from 'config'
 import superagent from 'superagent'
 import { camelizeKeys } from 'humps'
 
-describe.only('Middleware::Api', function(){
+describe('Middleware::Api', function(){
+  let apiMiddleware
   let store, next
   let action
   beforeEach(function(){
+    apiMiddleware = createApiMiddleware({})
     store = { dispatch: sinon.stub(), getState: sinon.stub() }
     next = sinon.stub()
   })
 
   describe('when called with [CHAIN_API]', function(){
-    let path1 = '/the-url/path-1'
     let successType1 = 'ON_SUCCESS_1'
     let successType2 = 'ON_SUCCESS_2'
     let errorType2 = 'ON_ERROR_2'
@@ -23,6 +24,8 @@ describe.only('Middleware::Api', function(){
     let afterSuccess1, afterSuccess2
     let response1 = { id: 'the-id-1', to_be_camelized: 'snake-val' }
     let response2 = { id: 'the-res-2' }
+    let path1 = '/the-url/path-1'
+    let path2 = `/the-url/${response1.id}`
 
     let afterError2
     let afterError
@@ -55,7 +58,7 @@ describe.only('Middleware::Api', function(){
               extra2: 'val2',
               [CALL_API]: {
                 method: 'get',
-                path: `/the-url/${resBody1.id}`,
+                path: path2,
                 afterSuccess: afterSuccess2,
                 afterError: afterError2,
                 successType: successType2,
@@ -159,6 +162,56 @@ describe.only('Middleware::Api', function(){
           done()
         })
       })
+
+      describe('Interceptor behaviors', function(){
+        it('handles dispatch and rejection stuff via `handleError`', function(done){
+          let spy = sinon.spy()
+          let dispatchedAction
+          store.dispatch = function(a) {
+            dispatchedAction = a
+          }
+          apiMiddleware = createApiMiddleware({
+            interceptor: ({ handleError, err, replay, getState })=> {
+              spy()
+              expect(getState).to.equal(store.getState)
+              handleError(err)
+            }
+          })
+          apiMiddleware(store)(next)(action)
+            .then(()=> {
+              expect(spy).to.have.been.called
+              expect(dispatchedAction.type).to.equal(errorType2)
+              expect(dispatchedAction.error).to.be.an.instanceOf(Error)
+              done()
+            })
+        })
+
+        describe('replay', ()=> {
+          beforeEach(()=> sinon.spy(superagent, 'get'))
+          afterEach(()=> superagent.get.restore())
+
+          it('resend the request', function(done){
+            let errTime = 0
+            apiMiddleware = createApiMiddleware({
+              interceptor: ({ handleError, err, replay, getState })=> {
+                if (errTime == 1) {
+                  handleError(err)
+                } else {
+                  replay()
+                  errTime ++
+                }
+              }
+            })
+            apiMiddleware(store)(next)(action)
+              .then(()=> {
+                expect(superagent.get).to.have.been
+                  .calledWith(`${config.API_BASE_URL}${path2}`).twice
+                done()
+              })
+          })
+        })
+      })
+
     })
   })
 
