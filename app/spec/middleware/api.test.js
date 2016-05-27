@@ -1,6 +1,5 @@
 import nock from 'nock'
 import createApiMiddleware, { CALL_API, CHAIN_API } from 'middleware/api'
-import config from 'config'
 import superagent from 'superagent'
 import { camelizeKeys } from 'humps'
 
@@ -8,8 +7,10 @@ describe('Middleware::Api', ()=> {
   let apiMiddleware
   let dispatch, getState, next
   let action
+  const BASE_URL = 'http://localhost:3000'
+
   beforeEach(()=> {
-    apiMiddleware = createApiMiddleware({})
+    apiMiddleware = createApiMiddleware({ baseUrl: BASE_URL })
     dispatch = sinon.stub()
     getState = sinon.stub()
     next = sinon.stub()
@@ -68,12 +69,12 @@ describe('Middleware::Api', ()=> {
     })
 
     function nockRequest1 () {
-      return nock(config.API_BASE_URL).post(path1)
+      return nock(BASE_URL).post(path1)
                                       .query({ queryKey: 'query-val' })
                                       .reply(200, response1)
     }
     function nockRequest2 (status = 200) {
-      return nock(config.API_BASE_URL).get('/the-url/the-id-1')
+      return nock(BASE_URL).get('/the-url/the-id-1')
                                       .reply(status, response2)
     }
 
@@ -168,6 +169,7 @@ describe('Middleware::Api', ()=> {
             dispatchedAction = a
           }
           apiMiddleware = createApiMiddleware({
+            baseUrl: BASE_URL,
             errorInterceptor: ({ handleError, err, replay, getState })=> {
               spy()
               expect(getState).to.equal(getState)
@@ -190,6 +192,7 @@ describe('Middleware::Api', ()=> {
           it('resend the request', (done)=> {
             let errTime = 0
             apiMiddleware = createApiMiddleware({
+              baseUrl: BASE_URL,
               errorInterceptor: ({ handleError, err, replay, getState })=> {
                 if (errTime == 1) {
                   handleError(err)
@@ -202,7 +205,7 @@ describe('Middleware::Api', ()=> {
             apiMiddleware({ dispatch, getState })(next)(action)
               .then(()=> {
                 expect(superagent.get).to.have.been
-                  .calledWith(`${config.API_BASE_URL}${path2}`).twice
+                  .calledWith(`${BASE_URL}${path2}`).twice
                 done()
               })
           })

@@ -1,7 +1,6 @@
 import superAgent from 'superagent'
 import Promise, { using } from 'bluebird'
 import _ from 'lodash'
-import config from 'config'
 import { camelizeKeys } from 'humps'
 
 export const CALL_API = Symbol('CALL_API')
@@ -11,7 +10,9 @@ let defaultInterceptor = function({ handleError, err, replay, getState }) {
   handleError(err)
 }
 
-export default ({ errorInterceptor = defaultInterceptor }) => {
+export default ({ errorInterceptor = defaultInterceptor, baseUrl }) => {
+  let extractParams = paramsExtractor({ baseUrl })
+
   return ({ dispatch, getState }) => next => action => {
     if (action[CALL_API]) {
       return dispatch({
@@ -33,7 +34,8 @@ export default ({ errorInterceptor = defaultInterceptor }) => {
         next,
         getState,
         dispatch,
-        errorInterceptor
+        errorInterceptor,
+        extractParams
       })
     })
 
@@ -59,7 +61,14 @@ function actionWith (action, toMerge) {
   return _.merge(ac, toMerge)
 }
 
-function createRequestPromise ({ createCallApiAction, next, getState, dispatch, errorInterceptor }) {
+function createRequestPromise ({
+  createCallApiAction,
+  next,
+  getState,
+  dispatch,
+  errorInterceptor,
+  extractParams
+}) {
   return (prevBody)=> {
     let apiAction = createCallApiAction(prevBody)
     let params = extractParams(apiAction[CALL_API])
@@ -121,28 +130,31 @@ function createRequestPromise ({ createCallApiAction, next, getState, dispatch, 
   }
 }
 
-function extractParams (callApi) {
-  let {
-    method,
-    path,
-    query,
-    body,
-    successType,
-    errorType,
-    afterSuccess,
-    afterError
-  } = callApi
+function paramsExtractor ({ baseUrl }) {
+  return (callApi)=> {
+    let {
+      method,
+      path,
+      query,
+      body,
+      successType,
+      errorType,
+      afterSuccess,
+      afterError
+    } = callApi
 
-  let url = `${config.API_BASE_URL}${path}`
+    let url = `${baseUrl}${path}`
 
-  return {
-    method,
-    url,
-    query,
-    body,
-    successType,
-    errorType,
-    afterSuccess,
-    afterError
+    return {
+      method,
+      url,
+      query,
+      body,
+      successType,
+      errorType,
+      afterSuccess,
+      afterError
+    }
+
   }
 }
