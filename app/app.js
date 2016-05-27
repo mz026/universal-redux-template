@@ -2,15 +2,13 @@ import 'babel-polyfill'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import createBrowserHistory from 'history/lib/createBrowserHistory'
+import { browserHistory } from 'react-router'
 
 import configureStore from 'store/configureStore'
 import createRoutes from 'routes/index'
 import { Provider } from 'react-redux'
 import Immutable from 'immutable'
 import _ from 'lodash'
-
-const history = createBrowserHistory()
 
 let reduxState = {}
 if (window.__REDUX_STATE__) {
@@ -27,6 +25,6 @@ const store = configureStore(reduxState)
 
 ReactDOM.render((
   <Provider store={store}>
-    { createRoutes(history) }
+    { createRoutes(browserHistory) }
   </Provider>
 ), document.getElementById('root'))

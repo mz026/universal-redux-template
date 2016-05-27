@@ -3,7 +3,7 @@ import path from 'path';
 
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import { RouterContext, match } from 'react-router';
+import { useRouterHistory, RouterContext, match } from 'react-router';
 
 import { createMemoryHistory, useQueries } from 'history';
 import compression from 'compression';
@@ -57,7 +57,7 @@ server.get('/api/questions/:id', (req, res)=> {
 })
 
 server.get('*', (req, res, next)=> {
-  let history = useQueries(createMemoryHistory)();
+  let history = useRouterHistory(useQueries(createMemoryHistory))();
   let store = configureStore();
   let routes = createRoutes(history);
   let location = history.createLocation(req.url);
