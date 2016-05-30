@@ -3,7 +3,7 @@ import createApiMiddleware, { CALL_API, CHAIN_API } from 'middleware/api'
 import superagent from 'superagent'
 import { camelizeKeys } from 'humps'
 
-describe('Middleware::Api', ()=> {
+describe.only('Middleware::Api', ()=> {
   let apiMiddleware
   let dispatch, getState, next
   let action
@@ -162,7 +162,7 @@ describe('Middleware::Api', ()=> {
       })
 
       describe('errorInterceptor behaviors', ()=> {
-        it('handles dispatch and rejection stuff via `handleError`', (done)=> {
+        it('handles dispatch and rejection stuff via `proceedError`', (done)=> {
           let spy = sinon.spy()
           let dispatchedAction
           dispatch = function(a) {
@@ -170,10 +170,10 @@ describe('Middleware::Api', ()=> {
           }
           apiMiddleware = createApiMiddleware({
             baseUrl: BASE_URL,
-            errorInterceptor: ({ handleError, err, replay, getState })=> {
+            errorInterceptor: ({ proceedError, err, replay, getState })=> {
               spy()
               expect(getState).to.equal(getState)
-              handleError(err)
+              proceedError()
             }
           })
           apiMiddleware({ dispatch, getState })(next)(action)
@@ -193,9 +193,9 @@ describe('Middleware::Api', ()=> {
             let errTime = 0
             apiMiddleware = createApiMiddleware({
               baseUrl: BASE_URL,
-              errorInterceptor: ({ handleError, err, replay, getState })=> {
+              errorInterceptor: ({ proceedError, err, replay, getState })=> {
                 if (errTime == 1) {
-                  handleError(err)
+                  proceedError()
                 } else {
                   replay()
                   errTime ++

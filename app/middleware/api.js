@@ -6,8 +6,8 @@ import { camelizeKeys } from 'humps'
 export const CALL_API = Symbol('CALL_API')
 export const CHAIN_API = Symbol('CHAIN_API')
 
-let defaultInterceptor = function({ handleError, err, replay, getState }) {
-  handleError(err)
+let defaultInterceptor = function({ proceedError, err, replay, getState }) {
+  proceedError()
 }
 
 export default ({ errorInterceptor = defaultInterceptor, baseUrl }) => {
@@ -31,7 +31,6 @@ export default ({ errorInterceptor = defaultInterceptor, baseUrl }) => {
     let promiseCreators = action[CHAIN_API].map((createCallApiAction)=> {
       return createRequestPromise({
         createCallApiAction,
-        next,
         getState,
         dispatch,
         errorInterceptor,
@@ -63,7 +62,6 @@ function actionWith (action, toMerge) {
 
 function createRequestPromise ({
   createCallApiAction,
-  next,
   getState,
   dispatch,
   errorInterceptor,
@@ -79,9 +77,12 @@ function createRequestPromise ({
         .send(params.body)
         .query(params.query)
         .end((err, res)=> {
+          function proceedError () {
+            handleError(err)
+          }
           if (err) {
             errorInterceptor({
-              handleError,
+              proceedError,
               err,
               getState,
               replay: sendRequest
