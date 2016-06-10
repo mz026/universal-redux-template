@@ -40,11 +40,9 @@ export default ({ dispatch, getState }) => next => action => {
 }
 
 function actionWith (action, toMerge) {
-  let ac = _.cloneDeep(action)
-  if (ac[CALL_API]) {
-    ac[CALL_API].delete
-  }
-  return _.merge(ac, toMerge)
+  let ret = Object.assign({}, action, toMerge)
+  delete ret[CALL_API]
+  return ret
 }
 
 function createRequestPromise (apiActionCreator, next, getState, dispatch) {
