@@ -1,8 +1,11 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import apiMiddleware from '../middleware/api';
+
+import apiMiddleware from 'redux-api-middleman'
+
 import createLogger from 'redux-logger';
 import rootReducer from '../reducers';
+import config from 'config'
 
 
 const logger = createLogger({
@@ -14,7 +17,7 @@ const logger = createLogger({
 
 const createStoreWithMiddleware = applyMiddleware(
   thunkMiddleware,
-  apiMiddleware,
+  apiMiddleware({baseUrl: config.API_BASE_URL}),
   logger
 )(createStore);
 

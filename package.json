@@ -41,6 +41,7 @@
     "react-redux": "^2.1.2",
     "react-router": "^2.4.1",
     "redux": "^3.0.0",
+    "redux-api-middleman": "https://github.com/CodementorIO/redux-api-middleman.git#master",
     "redux-logger": "^1.0.9",
     "redux-thunk": "^0.1.0",
     "rewire": "^2.3.4",

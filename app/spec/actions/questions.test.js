@@ -1,4 +1,4 @@
-import { CALL_API, CHAIN_API } from 'middleware/api'
+import { CALL_API, CHAIN_API } from 'redux-api-middleman'
 
 import * as actionCreator from 'actions/questions'
 import * as ActionType from 'actions/questions'
