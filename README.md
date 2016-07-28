@@ -59,6 +59,14 @@ eg: `$ ./bin/generate component myNamespace/MyComponent`
 - Intro page: `{base_url}`
 - Question Page: `{base_url}/questions`
 
+## Vendor Scripts:
+
+Vendor related scripts are bundled into a `vendor.js`,
+associated settings can be found in the `entry` field of `webpack.config.js`.
+
+(thanks [@dlombardi](https://github.com/dlombardi) for pointing it out!)
+
+
 ## For Windows Users:
 
 ### `npm test`:
