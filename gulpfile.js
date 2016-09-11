@@ -24,3 +24,8 @@ gulp.task('css:build', ['css'], function() {
              .pipe($.rev.manifest())
              .pipe(gulp.dest('./dist'))
 })
+
+gulp.task('assets', function() {
+  return gulp.src('./app/assets/**/*')
+             .pipe(gulp.dest('./dist/assets'))
+})
