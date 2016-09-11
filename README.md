@@ -59,6 +59,10 @@ eg: `$ ./bin/generate component myNamespace/MyComponent`
 - Intro page: `{base_url}`
 - Question Page: `{base_url}/questions`
 
+## How it works:
+### Assets Management
+TODO
+
 ## Vendor Scripts:
 
 Vendor related scripts are bundled into a `vendor.js`,
