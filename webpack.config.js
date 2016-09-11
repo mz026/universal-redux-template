@@ -28,7 +28,7 @@ var config = {
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: DEBUG ? '[name].js' : '[name].[chunkhash].js'
+    filename: '[name].js'
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -76,7 +76,6 @@ if (DEBUG) {
       filname: '[name].[chunkhash].js'
     }),
     new webpack.optimize.UglifyJsPlugin(),
-    new AssetsPlugin({ path: path.join(__dirname, 'dist') })
   ]);
 }
 

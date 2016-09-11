@@ -17,14 +17,14 @@ import { Provider } from 'react-redux'
 let server = new Express()
 let port = process.env.PORT || 3000
 let scriptSrcs
+process.env.ON_SERVER = true
 
 let styleSrc
 if ( process.env.NODE_ENV === 'production' ) {
-  let assets = require('../../dist/webpack-assets.json')
   let refManifest = require('../../dist/rev-manifest.json')
   scriptSrcs = [
-    `/${assets.vendor.js}`,
-    `/${assets.app.js}`
+    `/${refManifest['vendor.js']}`,
+    `/${refManifest['app.js']}`,
   ]
   styleSrc = `/${refManifest['main.css']}`
 } else {
