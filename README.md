@@ -94,7 +94,7 @@ To deploy this app to production environment:
 
 - Kick off the server with:
 
-`$ NODE_ENV=production NODE_PATH=./app node app/server`
+` NODE_ENV=production NODE_PATH=./dist/server-build node dist/server-build/server`
 
 ### Deploy to Heroku
 

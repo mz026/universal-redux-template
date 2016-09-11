@@ -21,7 +21,7 @@ process.env.ON_SERVER = true
 
 let styleSrc
 if ( process.env.NODE_ENV === 'production' ) {
-  let refManifest = require('../../dist/rev-manifest.json')
+  let refManifest = require('../../rev-manifest.json')
   scriptSrcs = [
     `/${refManifest['vendor.js']}`,
     `/${refManifest['app.js']}`,
@@ -37,12 +37,11 @@ if ( process.env.NODE_ENV === 'production' ) {
 }
 
 server.use(compression())
-server.use(Express.static(path.join(__dirname, '../..', 'dist')))
 
 if (process.env.NODE_ENV === 'production') {
-  server.use('/assets', Express.static(path.join(__dirname, '../../', 'dist', 'assets')))
+  server.use(Express.static(path.join(__dirname, '../..', 'public')))
 } else {
-  server.use('/assets', Express.static(path.join(__dirname, '..', 'assets')))
+  server.use(Express.static(path.join(__dirname, '../..', 'dist')))
 }
 
 server.set('views', path.join(__dirname, 'views'))

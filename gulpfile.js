@@ -1,5 +1,6 @@
 var gulp = require('gulp'),
-  $ = require('gulp-load-plugins')({ camelize: true })
+  $ = require('gulp-load-plugins')({ camelize: true }),
+  runSequence = require('run-sequence')
 
 gulp.task('css', function() {
   return gulp.src('app/styles/main.scss')
@@ -22,11 +23,26 @@ gulp.task('moveAssets', function() {
              .pipe(gulp.dest('./dist/assets'))
 })
 
-gulp.task('build', ['css', 'moveAssets'], function() {
+gulp.task('build:client', ['css', 'moveAssets'], function() {
   var rev = new $.revAll()
   return gulp.src('./dist/**/*')
              .pipe(rev.revision())
-             .pipe(gulp.dest('./dist'))
+             .pipe(gulp.dest('./dist/public'))
              .pipe(rev.manifestFile())
              .pipe(gulp.dest('./dist'))
+})
+
+gulp.task('build:cpServer', function() {
+  return gulp.src('./app/**/*.{js,ejs}')
+             .pipe(gulp.dest('./dist/server-build'))
+})
+gulp.task('build:server', ['build:cpServer'], function() {
+  var manifest = gulp.src('./dist/rev-manifest.json')
+  return gulp.src('./dist/server-build/{components,containers}/**/*')
+             .pipe($.revReplace({ manifest: manifest }))
+             .pipe(gulp.dest('./dist/server-build'))
+})
+
+gulp.task('build', function() {
+  runSequence('build:client', 'build:server')
 })
