@@ -7,7 +7,7 @@
     "test": "cross-env NODE_ENV=test cross-env NODE_PATH=./app mocha --compilers js:babel-register -r app/spec/support/setup.mocha.js --recursive 'app/spec/**/*.test.js' -w",
     "test:ci": "cross-env NODE_ENV=test cross-env NODE_PATH=./app mocha --compilers js:babel-register -r app/spec/support/setup.mocha.js --recursive 'app/spec/**/*.test.js'",
     "webpack": "webpack",
-    "build": "rimraf dist/ && npm run webpack && gulp css:build",
+    "build": "rimraf dist/ && npm run webpack && gulp build",
     "postinstall": "npm run build"
   },
   "engines": {
@@ -30,6 +30,8 @@
     "compression": "^1.6.0",
     "ejs": "^2.3.4",
     "express": "^4.13.3",
+    "gulp-rev-all": "^0.8.24",
+    "gulp-rev-replace": "^0.4.3",
     "history": "^1.17.0",
     "humps": "^0.6.0",
     "immutable": "^3.8.1",
@@ -44,6 +46,7 @@
     "redux-logger": "^1.0.9",
     "redux-thunk": "^0.1.0",
     "rewire": "^2.3.4",
+    "run-sequence": "^1.2.2",
     "superagent": "^1.4.0"
   },
   "devDependencies": {
