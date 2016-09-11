@@ -94,7 +94,7 @@ To deploy this app to production environment:
 - Use whatever tool to upload this app to server. ([Capistrano](http://capistranorb.com/) is a good choice.)
 
 - Run `$ NODE_ENV=production npm install` on server
-  - After the installation above, `postinstall` script will run automatically, building front-end related assets under `dist/` folder.
+  - After the installation above, `postinstall` script will run automatically, building front-end related assets and rev-ed server code under `dist/` folder.
 
 - Kick off the server with:
 
