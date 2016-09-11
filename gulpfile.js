@@ -1,5 +1,5 @@
 var gulp = require('gulp'),
-  $ = require('gulp-load-plugins')();
+  $ = require('gulp-load-plugins')()
 
 gulp.task('css', function() {
   return gulp.src('app/styles/main.scss')
@@ -10,17 +10,17 @@ gulp.task('css', function() {
              cascade: false
            }))
            .pipe($.sourcemaps.write())
-           .pipe(gulp.dest('./dist'));
+           .pipe(gulp.dest('./dist'))
 })
 
 gulp.task('css:watch', function() {
-  gulp.watch('app/styles/**/*.scss', ['css']);
-});
+  gulp.watch('app/styles/**/*.scss', ['css'])
+})
 
 gulp.task('css:build', ['css'], function() {
   return gulp.src('./dist/main.css')
              .pipe($.rev())
              .pipe(gulp.dest('./dist'))
              .pipe($.rev.manifest())
-             .pipe(gulp.dest('./dist'));
+             .pipe(gulp.dest('./dist'))
 })
