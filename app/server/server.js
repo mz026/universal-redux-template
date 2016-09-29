@@ -14,6 +14,8 @@ import createRoutes from 'routes/index'
 
 import { Provider } from 'react-redux'
 
+import Helmet from 'react-helmet'
+
 let server = new Express()
 let port = process.env.PORT || 3000
 let scriptSrcs
@@ -81,6 +83,7 @@ server.get('*', (req, res, next)=> {
 
       getReduxPromise().then(()=> {
         let reduxState = escape(JSON.stringify(store.getState()))
+        let metaHeader = Helmet.rewind();
         let html = ReactDOMServer.renderToString(
           <Provider store={store}>
             { <RouterContext {...renderProps}/> }
@@ -88,7 +91,7 @@ server.get('*', (req, res, next)=> {
         )
 
         if ( getCurrentUrl() === reqUrl ) {
-          res.render('index', { html, scriptSrcs, reduxState, styleSrc })
+          res.render('index', { metaHeader, html, scriptSrcs, reduxState, styleSrc })
         } else {
           res.redirect(302, getCurrentUrl())
         }

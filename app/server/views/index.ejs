@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Redux real-world example</title>
     <link rel="stylesheet" href="<%= styleSrc %>" type="text/css" media="screen" charset="utf-8">
+    <%- metaHeader.title.toString() %>
+    <%- metaHeader.htmlAttributes.toString() %>
+    <%- metaHeader.base.toString() %>
+    <%- metaHeader.meta.toString() %>
+    <%- metaHeader.link.toString() %>
+    <%- metaHeader.script.toString() %>
+    <%- metaHeader.style.toString() %>
   </head>
   <body>
     <div id="root"><%- html %></div>
@@ -16,4 +22,3 @@
 
   </body>
 </html>
-
