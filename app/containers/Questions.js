@@ -4,6 +4,7 @@ import { loadQuestions } from 'actions/questions'
 import { Link } from 'react-router'
 import _ from 'lodash'
 import Questions from 'components/Questions'
+import Helmet from 'react-helmet';
 
 class QuestionContainer extends Component {
   static fetchData({ store }) {
@@ -16,6 +17,9 @@ class QuestionContainer extends Component {
   render() {
     return (
       <div>
+        <Helmet
+          title="Questions"
+        />
         <h2>Question</h2>
         <Questions questions={this.props.questions} />
         <Link to="/">Back to Home</Link>
