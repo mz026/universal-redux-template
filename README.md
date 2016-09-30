@@ -42,8 +42,8 @@ eg: `$ ./bin/generate component myNamespace/MyComponent`
 - Use [Immutable](https://facebook.github.io/immutable-js/) as store data
 
 ## Stack:
-- React 15.0.2
-- React-Router 2.4.1
+- React 15.3.2
+- React-Router 2.8.1
 - Immutable
 - Express as isomorphic server
 - Babel
