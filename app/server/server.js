@@ -98,6 +98,7 @@ server.get('*', (req, res, next)=> {
         unsubscribe()
       })
       .catch((err)=> {
+        Helmet.rewind();
         unsubscribe()
         next(err)
       })
