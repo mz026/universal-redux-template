@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router';
-import Helmet from 'react-helmet';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Link } from 'react-router'
+import Helmet from 'react-helmet'
 
 class Intro extends Component {
   render() {
@@ -16,12 +16,12 @@ class Intro extends Component {
         </div>
         <Link to="/questions">to question</Link>
       </div>
-    );
+    )
   }
 }
 
 function mapStateToProps() {
-  return {};
+  return {}
 }
 
-export default connect(mapStateToProps)(Intro);
+export default connect(mapStateToProps)(Intro)

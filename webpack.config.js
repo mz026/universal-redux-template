@@ -1,12 +1,12 @@
-var path = require('path');
-var webpack = require('webpack');
-var AssetsPlugin = require('assets-webpack-plugin');
+var path = require('path')
+var webpack = require('webpack')
+var AssetsPlugin = require('assets-webpack-plugin')
 
-var DEBUG = !(process.env.NODE_ENV === 'production');
+var DEBUG = !(process.env.NODE_ENV === 'production')
 var env = {
   NODE_ENV: process.env.NODE_ENV,
   API_BASE_URL: process.env.API_BASE_URL
-};
+}
 
 var config = {
   devtool: DEBUG ? 'cheap-module-eval-source-map' : false,
@@ -45,14 +45,14 @@ var config = {
       }
     ]
   }
-};
+}
 
 
 if (DEBUG) {
   config.entry.dev = [
     'webpack-dev-server/client?http://localhost:3001',
     'webpack/hot/only-dev-server',
-  ];
+  ]
 
   config.plugins = config.plugins.concat([
     new webpack.HotModuleReplacementPlugin(),
@@ -60,15 +60,15 @@ if (DEBUG) {
       name: 'vendor',
       filname: 'vendor.js'
     })
-  ]);
-  config.output.publicPath = 'http://localhost:3001/static/';
+  ])
+  config.output.publicPath = 'http://localhost:3001/static/'
   config.module.loaders[0].query = {
     "env": {
       "development": {
         "presets": ["react-hmre"]
       }
     }
-  };
+  }
 } else {
   config.plugins = config.plugins.concat([
     new webpack.optimize.CommonsChunkPlugin({
@@ -76,7 +76,7 @@ if (DEBUG) {
       filname: '[name].[chunkhash].js'
     }),
     new webpack.optimize.UglifyJsPlugin(),
-  ]);
+  ])
 }
 
-module.exports = config;
+module.exports = config

@@ -1,5 +1,5 @@
 import React from 'react'
-import TestUtils from 'react-addons-test-utils'
+import { shallow } from 'enzyme'
 
 import COMPONENT_NAME from 'components/PATH_PREFIX/COMPONENT_NAME'
 
@@ -9,7 +9,7 @@ describe.only('Component::COMPONENT_FULL_NAMESPACE', function(){
     props = {}
   })
   function renderDoc () {
-    return TestUtils.renderIntoDocument(<COMPONENT_NAME {...props} />)
+    return shallow(<Questions {...props} />)
   }
 
   it('can be rendered', function(){

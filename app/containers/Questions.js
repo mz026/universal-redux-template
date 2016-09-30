@@ -4,7 +4,7 @@ import { loadQuestions } from 'actions/questions'
 import { Link } from 'react-router'
 import _ from 'lodash'
 import Questions from 'components/Questions'
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 class QuestionContainer extends Component {
   static fetchData({ store }) {
