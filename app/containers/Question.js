@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { loadQuestionDetail } from 'actions/questions'
+import Helmet from 'react-helmet';
 
 class Question extends Component {
   static fetchData({ store, params }) {
@@ -15,6 +16,9 @@ class Question extends Component {
     let { question } = this.props
     return (
       <div>
+        <Helmet
+          title={'Question ' + this.props.params.id}
+        />
         <h2>{ question.get('content') }</h2>
         <h3> User: {question.getIn(['user', 'name'])} </h3>
       </div>

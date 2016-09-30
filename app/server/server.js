@@ -14,6 +14,8 @@ import createRoutes from 'routes/index'
 
 import { Provider } from 'react-redux'
 
+import Helmet from 'react-helmet'
+
 let server = new Express()
 let port = process.env.PORT || 3000
 let scriptSrcs
@@ -86,15 +88,17 @@ server.get('*', (req, res, next)=> {
             { <RouterContext {...renderProps}/> }
           </Provider>
         )
+        let metaHeader = Helmet.rewind();
 
         if ( getCurrentUrl() === reqUrl ) {
-          res.render('index', { html, scriptSrcs, reduxState, styleSrc })
+          res.render('index', { metaHeader, html, scriptSrcs, reduxState, styleSrc })
         } else {
           res.redirect(302, getCurrentUrl())
         }
         unsubscribe()
       })
       .catch((err)=> {
+        Helmet.rewind();
         unsubscribe()
         next(err)
       })
