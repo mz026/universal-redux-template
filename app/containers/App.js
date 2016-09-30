@@ -12,6 +12,7 @@ class App extends Component {
           meta={[
             {"name": "description", "content": "A boilerplate doing universal/isomorphic rendering with Redux + React-router + Express"},
           ]}
+          htmlAttributes={{"lang": "en"}}
         />
         {this.props.children}
       </div>

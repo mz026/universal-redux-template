@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html <%- metaHeader.htmlAttributes.toString() %>>
   <head>
     <link rel="stylesheet" href="<%= styleSrc %>" type="text/css" media="screen" charset="utf-8">
     <%- metaHeader.title.toString() %>
-    <%- metaHeader.htmlAttributes.toString() %>
     <%- metaHeader.base.toString() %>
     <%- metaHeader.meta.toString() %>
     <%- metaHeader.link.toString() %>

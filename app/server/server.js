@@ -83,12 +83,12 @@ server.get('*', (req, res, next)=> {
 
       getReduxPromise().then(()=> {
         let reduxState = escape(JSON.stringify(store.getState()))
-        let metaHeader = Helmet.rewind();
         let html = ReactDOMServer.renderToString(
           <Provider store={store}>
             { <RouterContext {...renderProps}/> }
           </Provider>
         )
+        let metaHeader = Helmet.rewind();
 
         if ( getCurrentUrl() === reqUrl ) {
           res.render('index', { metaHeader, html, scriptSrcs, reduxState, styleSrc })
