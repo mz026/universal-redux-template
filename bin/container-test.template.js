@@ -7,7 +7,7 @@ describe.only('Container::COMPONENT_FULL_NAMESPACE', function(){
   let props
 
   function renderDoc () {
-    return mount(<Question {...props}/>)
+    return mount(<COMPONENT_NAME {...props}/>)
   }
   beforeEach(function(){
     props = {

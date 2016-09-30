@@ -9,7 +9,7 @@ describe.only('Component::COMPONENT_FULL_NAMESPACE', function(){
     props = {}
   })
   function renderDoc () {
-    return shallow(<Questions {...props} />)
+    return shallow(<COMPONENT_NAME {...props} />)
   }
 
   it('can be rendered', function(){
