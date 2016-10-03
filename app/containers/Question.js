@@ -2,15 +2,16 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { loadQuestionDetail } from 'actions/questions'
 import Helmet from 'react-helmet'
+import { browserHistory } from 'react-router'
 
 class Question extends Component {
-  static fetchData({ store, params }) {
+  static fetchData({ store, params, history }) {
     let { id } = params
-    return store.dispatch(loadQuestionDetail({ id }))
+    return store.dispatch(loadQuestionDetail({ id, history }))
   }
   componentDidMount() {
     let { id } = this.props.params
-    this.props.loadQuestionDetail({ id })
+    this.props.loadQuestionDetail({ id, history: browserHistory })
   }
   render() {
     let { question } = this.props

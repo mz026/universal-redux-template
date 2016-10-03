@@ -13,7 +13,7 @@ export function loadQuestions() {
 
 export const LOADED_QUESTION_DETAIL = Symbol('LOADED_QUESTION_DETAIL')
 export const LOADED_QUESTION_USER = Symbol('LOADED_QUESTION_USER')
-export function loadQuestionDetail ({ id }) {
+export function loadQuestionDetail ({ id, history }) {
   return {
     [CHAIN_API]: [
       ()=> {
@@ -21,7 +21,10 @@ export function loadQuestionDetail ({ id }) {
           [CALL_API]: {
             method: 'get',
             path: `/api/questions/${id}`,
-            successType: LOADED_QUESTION_DETAIL
+            successType: LOADED_QUESTION_DETAIL,
+            afterError: ()=> {
+              history.push('/')
+            }
           }
         }
       },

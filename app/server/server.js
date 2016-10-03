@@ -61,7 +61,12 @@ server.get('/api/users/:id', (req, res)=> {
 })
 server.get('/api/questions/:id', (req, res)=> {
   let { getQuestion } = require('./mock_api')
-  res.send(getQuestion(req.params.id))
+  let question = getQuestion(req.params.id)
+  if (question) {
+    res.send(question)
+  } else {
+    res.status(404).send({ reason: 'question not found' })
+  }
 })
 
 server.get('*', (req, res, next)=> {
@@ -116,7 +121,7 @@ server.get('*', (req, res, next)=> {
   function subscribeUrl () {
     let currentUrl = location.pathname + location.search
     let unsubscribe = history.listen((newLoc)=> {
-      if (newLoc.action === 'PUSH') {
+      if (newLoc.action === 'PUSH' || newLoc.action === 'REPLACE') {
         currentUrl = newLoc.pathname + newLoc.search
       }
     })

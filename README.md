@@ -64,6 +64,9 @@ eg: `$ ./bin/generate component myNamespace/MyComponent`
 ### Assets Management
 TODO
 
+### Redirect after API Calls
+TODO
+
 ## Vendor Scripts:
 
 Vendor related scripts are bundled into a `vendor.js`,
