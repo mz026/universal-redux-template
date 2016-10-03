@@ -2,6 +2,7 @@ import React from 'react'
 import Immutable from 'immutable'
 import Container, { Question } from 'containers/Question'
 import { mount } from 'enzyme'
+import { browserHistory } from 'react-router'
 
 describe('Container::Question', function(){
   let props
@@ -28,7 +29,10 @@ describe('Container::Question', function(){
 
   it('fetches question details on mounted', function(){
     let doc = renderDoc()
-    expect(props.loadQuestionDetail).to.have.been.calledWith({ id: props.params.id })
+    expect(props.loadQuestionDetail).to.have.been.calledWith({
+      id: props.params.id,
+      history: browserHistory
+    })
   })
 
 })

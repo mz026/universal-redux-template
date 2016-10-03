@@ -19,12 +19,23 @@ describe('Action::Question', function(){
     let id = 'the-id'
     it('returns a CHAIN_API to fetch question first', function(){
       let action = actionCreator.loadQuestionDetail({ id })
+      let callApi = action[CHAIN_API][0]()[CALL_API]
 
-      expect(action[CHAIN_API][0]()[CALL_API]).to.deep.equal({
-        method: 'get',
-        path: `/api/questions/${id}`,
-        successType: ActionType.LOADED_QUESTION_DETAIL
-      })
+      expect(callApi.method).to.equal('get')
+      expect(callApi.path).to.equal(`/api/questions/${id}`)
+      expect(callApi.successType).to.equal(ActionType.LOADED_QUESTION_DETAIL)
+    })
+    it('navigates to root when request error', ()=> {
+      let mockHistory = {
+        push: sinon.stub()
+      }
+      let action = actionCreator.loadQuestionDetail({ id, history: mockHistory })
+      let callApi = action[CHAIN_API][0]()[CALL_API]
+
+      expect(callApi.afterError).to.be.an.instanceOf(Function)
+      callApi.afterError()
+
+      expect(mockHistory.push).to.have.been.calledWith('/')
     })
     it('fetches user data after fetching question', function(){
       let action = actionCreator.loadQuestionDetail({ id })
