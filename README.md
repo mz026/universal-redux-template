@@ -64,6 +64,24 @@ eg: `$ ./bin/generate component myNamespace/MyComponent`
 ### Assets Management
 TODO
 
+### Redirect after API Calls
+
+Under some cases, we'd like to do 302 redirect after fetching API. For example:
+
+```
+When users try to access a question page via an unexisting Id, redirect her to Index route.
+```
+
+In the code layer, we want the implementation to be shared on both client and server side.
+This is achieved by passing a `history` instance to action creators, and use `history.push` whenever needed.
+
+On the client side, `react-router` would then take care the rest of redirecting logic,
+while on server side, we subscribe the url-chaning events on each request, and redirect requests to proper pages if needed.
+
+Such implementation can be found in [`QuestionContainer`](https://github.com/mz026/universal-redux-template/blob/master/app/containers/Question.js),
+[`questions action`](https://github.com/mz026/universal-redux-template/blob/master/app/actions/questions.js)
+
+
 ## Vendor Scripts:
 
 Vendor related scripts are bundled into a `vendor.js`,

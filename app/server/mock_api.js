@@ -17,5 +17,8 @@ export function getUser (id) {
   }
 }
 export function getQuestion (id) {
+  if (id === 'not-found') {
+    return null
+  }
   return question(id)
 }

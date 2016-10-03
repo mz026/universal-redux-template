@@ -17,6 +17,7 @@ class Questions extends Component {
             )
           })
         }
+        <Link to={`/questions/not-found`}> This link would be redirected to Index</Link>
       </div>
     )
   }

@@ -22,6 +22,6 @@ describe('Component::Questions', function(){
     let doc = renderDoc()
     let questionComps = doc.find(Link)
 
-    expect(questionComps.length).to.equal(props.questions.size)
+    expect(questionComps.length).to.equal(props.questions.size + 1)
   })
 })
