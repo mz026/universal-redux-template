@@ -14,7 +14,7 @@ gulp.task('css', function() {
            .pipe(gulp.dest('./dist'))
 })
 
-gulp.task('css:watch', function() {
+gulp.task('css:watch', ['css'], function() {
   gulp.watch('app/styles/**/*.scss', ['css'])
 })
 
