@@ -7,7 +7,7 @@ engines:
   eslint:
     enabled: true
   duplication:
-  	enabled: true
+    enabled: true
     config:
     	languages:
       - javascript
