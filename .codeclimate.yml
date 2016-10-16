@@ -1,0 +1,20 @@
+engines:
+  rubocop:
+    enabled: true
+    #checks:
+    #	Rubocop/Metrics/ClassLength:
+    #  	enabled: false
+  eslint:
+    enabled: true
+  duplication:
+  	enabled: true
+    config:
+    	languages:
+      - javascript
+ratings:
+  paths:
+  - app/**
+  - "**.js"
+
+exclude_paths:
+- bin/**/*
