@@ -61,8 +61,33 @@ eg: `$ ./bin/generate component myNamespace/MyComponent`
 - Question Page: `{base_url}/questions`
 
 ## How it works:
+
 ### Assets Management
-TODO
+
+When handling static assets, we want to achieve the following goals:
+
+- Make assigning assets url a no-brainer
+- Apply revision when deploying to production to integrate with CDN services easily
+
+The usage example can be found in `[Intro Container](https://github.com/mz026/universal-redux-template/blob/master/app/containers/Intro.js)`
+
+
+We achieve this by:
+
+First, creating an assets container folder: `app/assets`
+
+### In development mode:
+
+Assign static folder linking `/assets` to the folder above
+
+### In production mode:
+
+Use a gulp task (`gulp build`) to handle it:
+
+- A set of `[rev](https://github.com/smysnk/gulp-rev-all)-ed` assets with hash code appended would be built into `dist/public/assets`
+- A static middleware mapping root url to the folder mentioned above is configured in `server.js`
+- A set of `[revReplace](https://github.com/jamesknelson/gulp-rev-replace)-ed` server code would be built into `dist/server-build`, so that the rev-ed assets can be used when doing server rendering
+
 
 ### Redirect after API Calls
 
