@@ -21,7 +21,7 @@ To bootstrap a React app development environment is not an easy task, there are 
 - Install dependencies:
 `$ npm install`
 
-- Host dev environment and start to build something chaning the world!
+- Host dev environment and start to build something changing the world!
 `$ npm start`
 
 - To run the test with Mocha, Enzyme, Sinon and Chai:
