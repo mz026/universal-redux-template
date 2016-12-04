@@ -10,19 +10,19 @@ const logger = createLogger({
   collapsed: false,
   logger: console,
   predicate: (getState, action) => true
-});
+})
 
-let middleware = [
+let middlewares = [
   thunkMiddleware,
   apiMiddleware
 ];
 
 if (process.env.NODE_ENV !== 'production') {
-  middleware = [...middleware, logger]
+  middlewares = [...middlewares, logger]
 }
 
 const createStoreWithMiddleware = applyMiddleware(
-  ...middleware
+  ...middlewares
 )(createStore);
 
 export default function configureStore(initialState) {
