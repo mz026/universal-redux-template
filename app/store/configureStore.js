@@ -12,19 +12,26 @@ const logger = createLogger({
   predicate: (getState, action) => true
 })
 
-const createStoreWithMiddleware = applyMiddleware(
+let middlewares = [
   thunkMiddleware,
-  apiMiddleware,
-  logger
-)(createStore)
+  apiMiddleware
+];
+
+if (process.env.NODE_ENV !== 'production') {
+  middlewares = [...middlewares, logger]
+}
+
+const createStoreWithMiddleware = applyMiddleware(
+  ...middlewares
+)(createStore);
 
 export default function configureStore(initialState) {
-  const store = createStoreWithMiddleware(rootReducer, initialState)
+  const store = createStoreWithMiddleware(rootReducer, initialState);
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
     module.hot.accept('../reducers', () => {
-      const nextRootReducer = require('../reducers')
+      const nextRootReducer = require('../reducers');
       store.replaceReducer(nextRootReducer)
     })
   }
