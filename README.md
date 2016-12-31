@@ -19,21 +19,18 @@ To bootstrap a React app development environment is not an easy task, there are 
 `$ git init`
 
 - Install dependencies:
-`$ npm install`
+`$ yarn install`
 
 - Host dev environment and start to build something changing the world!
-`$ npm start`
+`$ yarn start`
 
 - To run the test with Mocha, Enzyme, Sinon and Chai:
-`$ npm test`
+`$ yarn test`
 
 - To generate a container/component/action and its tests:
 `$ ./bin/generate <type> <path>`
 
 eg: `$ ./bin/generate component myNamespace/MyComponent`
-
-- To update [npm-shrinkwrap](https://docs.npmjs.com/cli/shrinkwrap):
-`$ npm shrinkwrap --dev`
 
 
 ## Features:
@@ -45,10 +42,12 @@ eg: `$ ./bin/generate component myNamespace/MyComponent`
 ## Stack:
 - React 15.3.2
 - React-Router 2.8.1
-- Immutable
+- [Immutable.js ]
 - Express as isomorphic server
 - Babel
 - Webpack
+- `yarn` as package manager
+
 
 ## Testing:
 - [Mocha](https://mochajs.org/) as testing framework
@@ -117,7 +116,7 @@ associated settings can be found in the `entry` field of `webpack.config.js`.
 
 ## For Windows Users:
 
-### `npm test`:
+### `yarn test`:
 
 The single quotes in `npm test` script surrounding path do not work on Windows, while [they're necessary on unix-like machines](https://github.com/mochajs/mocha/issues/1115).
 Please remove them in `scripts.test` section in `package.json` like this:
@@ -137,7 +136,7 @@ To deploy this app to production environment:
 
 - Use whatever tool to upload this app to server. ([Capistrano](http://capistranorb.com/) is a good choice.)
 
-- Run `$ NODE_ENV=production npm install` on server
+- Run `$ NODE_ENV=production yarn install` on server
   - After the installation above, `postinstall` script will run automatically, building front-end related assets and rev-ed server code under `dist/` folder.
 
 - Kick off the server with:
