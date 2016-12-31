@@ -42,10 +42,12 @@ eg: `$ ./bin/generate component myNamespace/MyComponent`
 ## Stack:
 - React 15.3.2
 - React-Router 2.8.1
-- Immutable
+- [Immutable.js ]
 - Express as isomorphic server
 - Babel
 - Webpack
+- `yarn` as package manager
+
 
 ## Testing:
 - [Mocha](https://mochajs.org/) as testing framework
