@@ -43,7 +43,7 @@ var config = {
       {
         test: /\.js$/,
         use: [
-          { loader: 'babel' }
+          { loader: 'babel-loader' }
         ],
         exclude: /node_modules/,
         include: __dirname
@@ -67,7 +67,7 @@ if (DEBUG) {
     })
   ])
   config.output.publicPath = 'http://localhost:3001/static/'
-  config.module.rules[0].options = {
+  config.module.rules[0].use[0].options = {
     "env": {
       "development": {
         "presets": ["react-hmre"]
