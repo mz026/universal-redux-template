@@ -81,7 +81,7 @@
     "rimraf": "^2.5.2",
     "sinon": "^1.17.1",
     "sinon-chai": "^2.8.0",
-    "webpack": "^1.9.11",
-    "webpack-dev-server": "^1.9.0"
+    "webpack": "^2.2.0",
+    "webpack-dev-server": "^2.2.0"
   }
 }
