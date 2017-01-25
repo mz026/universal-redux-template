@@ -24,7 +24,10 @@ var config = {
     ]
   },
   resolve: {
-    root: [ path.join(__dirname, 'app') ]
+    modules: [
+      path.join(__dirname, 'app'),
+      'node_modules'
+    ]
   },
   output: {
     path: path.join(__dirname, 'dist'),
@@ -36,10 +39,12 @@ var config = {
     })
   ],
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
-        loader: 'babel',
+        use: [
+          { loader: 'babel' }
+        ],
         exclude: /node_modules/,
         include: __dirname
       }
@@ -62,7 +67,7 @@ if (DEBUG) {
     })
   ])
   config.output.publicPath = 'http://localhost:3001/static/'
-  config.module.loaders[0].query = {
+  config.module.rules[0].options = {
     "env": {
       "development": {
         "presets": ["react-hmre"]
