@@ -40,12 +40,12 @@ eg: `$ ./bin/generate component myNamespace/MyComponent`
 - Use [Immutable](https://facebook.github.io/immutable-js/) as store data
 
 ## Stack:
-- React 15.3.2
-- React-Router 2.8.1
-- [Immutable.js ]
+- [react](https://github.com/facebook/react)@15.4.2
+- [react-router](https://github.com/ReactTraining/react-router)@2.8.1
+- [Immutable.js](https://facebook.github.io/immutable-js/)
+- [Webpack](https://webpack.github.io/)@2.2
+- [Babel](https://babeljs.io/)@6
 - Express as isomorphic server
-- Babel
-- Webpack
 - `yarn` as package manager
 
 
