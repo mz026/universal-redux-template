@@ -4,6 +4,10 @@ var AssetsPlugin = require('assets-webpack-plugin')
 
 var DEBUG = !(process.env.NODE_ENV === 'production')
 
+if (DEBUG) {
+  require('dotenv').config()
+}
+
 var config = {
   devtool: DEBUG ? 'cheap-module-eval-source-map' : false,
   entry: {
