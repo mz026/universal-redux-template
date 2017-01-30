@@ -28,6 +28,7 @@
     "babel-register": "^6.5.1",
     "bluebird": "^2.10.0",
     "compression": "^1.6.0",
+    "dotenv": "^4.0.0",
     "ejs": "^2.3.4",
     "express": "^4.13.3",
     "gulp-rev-all": "^0.8.24",
@@ -81,7 +82,7 @@
     "rimraf": "^2.5.2",
     "sinon": "^1.17.1",
     "sinon-chai": "^2.8.0",
-    "webpack": "^1.9.11",
-    "webpack-dev-server": "^1.9.0"
+    "webpack": "^2.2.0",
+    "webpack-dev-server": "^2.2.0"
   }
 }

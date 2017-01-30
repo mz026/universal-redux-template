@@ -3,9 +3,9 @@ var webpack = require('webpack')
 var AssetsPlugin = require('assets-webpack-plugin')
 
 var DEBUG = !(process.env.NODE_ENV === 'production')
-var env = {
-  NODE_ENV: process.env.NODE_ENV,
-  API_BASE_URL: process.env.API_BASE_URL
+
+if (DEBUG) {
+  require('dotenv').config()
 }
 
 var config = {
@@ -24,22 +24,20 @@ var config = {
     ]
   },
   resolve: {
-    root: [ path.join(__dirname, 'app') ]
+    modules: [ path.join(__dirname, 'app'), 'node_modules' ]
   },
   output: {
     path: path.join(__dirname, 'dist'),
     filename: '[name].js'
   },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': JSON.stringify(env)
-    })
+    new webpack.EnvironmentPlugin(['NODE_ENV', 'API_BASE_URL'])
   ],
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
-        loader: 'babel',
+        loader: 'babel-loader',
         exclude: /node_modules/,
         include: __dirname
       }
@@ -62,7 +60,7 @@ if (DEBUG) {
     })
   ])
   config.output.publicPath = 'http://localhost:3001/static/'
-  config.module.loaders[0].query = {
+  config.module.rules[0].options = {
     "env": {
       "development": {
         "presets": ["react-hmre"]
