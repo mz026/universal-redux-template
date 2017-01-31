@@ -35,7 +35,10 @@ var config = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': JSON.stringify(env)
+      'process.env': {
+        'NODE_ENV': JSON.stringify(env.NODE_ENV),
+        'API_BASE_URL': JSON.stringify(env.API_BASE_URL)
+      }
     })
   ],
   module: {
