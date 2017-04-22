@@ -1,0 +1,18 @@
+{
+  "parser": "babel-eslint",
+  "plugins": [
+    "babel",
+    "react"
+  ],
+  "env": {
+    "mocha" : true
+  },
+  "globals": {
+    "document": false,
+    "expect": false,
+    "navigator": false,
+    "sinon": false,
+    "window": false
+  },
+  "rules": {}
+}
