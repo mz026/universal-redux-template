@@ -3,3 +3,4 @@ node_modules
 dist
 .tmp
 yarn-error.log
+.babel-test-build
