@@ -92,6 +92,8 @@
     "rewire-webpack": "^1.0.0",
     "sinon": "^1.17.1",
     "sinon-chai": "^2.8.0",
-    "webpack-dev-server": "^2.2.0"
+    "webpack-dev-middleware": "^1.10.2",
+    "webpack-dev-server": "^2.2.0",
+    "webpack-hot-middleware": "^2.18.0"
   }
 }
