@@ -38,6 +38,8 @@ eg: `$ ./bin/generate component myNamespace/MyComponent`
 - Server side redirect
 - Separate vendor and app js files
 - Use [Immutable](https://facebook.github.io/immutable-js/) as store data
+- Hot Reload on client side by Webpack
+- Hot Reload on server side ([ref](https://medium.com/@kevinsimper/dont-use-nodemon-there-are-better-ways-fc016b50b45e))
 
 ## Stack:
 - [react](https://github.com/facebook/react)@15.4.2
