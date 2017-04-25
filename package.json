@@ -4,7 +4,7 @@
   "description": "Universal Redux Template",
   "scripts": {
     "lint": "eslint app bin",
-    "start": "cross-env NODE_PATH=./app concurrently --kill-others \"node app/server\" \"node webpack.server.js\" \"gulp css:watch\"",
+    "start": "cross-env NODE_PATH=./app concurrently --kill-others \"node app/server\" \"gulp css:watch\"",
     "test:prebuild": "./bin/test-prebuild",
     "test:watch": "yarn run test:prebuild; yarn run test:babelwatch",
     "test:babelwatch": "NODE_ENV=test babel app --out-dir .babel-test-build --source-maps --watch --ignore app/assets app/styles app/server  --skip-initial-build",
@@ -87,6 +87,7 @@
     "mocha": "^2.4.5",
     "nock": "^2.17.0",
     "react-addons-test-utils": "^15.4.2",
+    "react-hot-loader": "^1.3.1",
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.2",
     "rewire-webpack": "^1.0.0",
