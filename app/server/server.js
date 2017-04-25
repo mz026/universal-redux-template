@@ -1,7 +1,7 @@
 import Express from 'express'
 import path from 'path'
-
 import compression from 'compression'
+import clearRequireCacheOnChange from './lib/clearRequireCacheOnChange'
 
 let server = new Express()
 let port = process.env.PORT || 3000
@@ -13,6 +13,8 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   server.use('/assets', Express.static(path.join(__dirname, '..', 'assets')))
   server.use(Express.static(path.join(__dirname, '../..', 'dist')))
+
+  clearRequireCacheOnChange({ rootDir: path.join(__dirname, '..') })
 }
 
 server.set('views', path.join(__dirname, 'views'))
