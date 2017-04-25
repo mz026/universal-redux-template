@@ -4,8 +4,11 @@
   "description": "Universal Redux Template",
   "scripts": {
     "start": "cross-env NODE_PATH=./app concurrently --kill-others \"nodemon app/server\" \"node webpack.server.js\" \"gulp css:watch\"",
-    "test": "cross-env NODE_ENV=test cross-env NODE_PATH=./app mocha --compilers js:babel-register -r app/spec/support/setup.mocha.js --recursive 'app/spec/**/*.test.js' -w",
-    "test:ci": "cross-env NODE_ENV=test cross-env NODE_PATH=./app mocha --compilers js:babel-register -r app/spec/support/setup.mocha.js --recursive 'app/spec/**/*.test.js'",
+    "test:prebuild": "./bin/test-prebuild",
+    "test:watch": "yarn run test:prebuild; yarn run test:babelwatch",
+    "test:babelwatch": "NODE_ENV=test babel app --out-dir .babel-test-build --source-maps --watch --ignore app/assets app/styles app/server  --skip-initial-build",
+    "test": "./bin/test",
+    "test:ci": "yarn run test:prebuild; yarn test",
     "webpack": "webpack",
     "build": "rimraf dist/ && npm run webpack && gulp build",
     "postinstall": "npm run build"
@@ -74,6 +77,7 @@
     "dotenv": "^4.0.0",
     "enzyme": "^2.3.0",
     "jsdom": "^7.0.1",
+    "md5-file": "^3.1.1",
     "mocha": "^2.4.5",
     "nock": "^2.17.0",
     "nodemon": "^1.6.0",

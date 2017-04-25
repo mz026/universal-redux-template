@@ -25,7 +25,7 @@ To bootstrap a React app development environment is not an easy task, there are 
 `$ yarn start`
 
 - To run the test with Mocha, Enzyme, Sinon and Chai:
-`$ yarn test`
+`$ yarn test:ci`
 
 - To generate a container/component/action and its tests:
 `$ ./bin/generate <type> <path>`
@@ -50,14 +50,79 @@ eg: `$ ./bin/generate component myNamespace/MyComponent`
 
 
 ## Testing:
+
+### Tools:
+
 - [Mocha](https://mochajs.org/) as testing framework
 - [Chai](http://chaijs.com/) as assertion library
 - [Rewire](https://github.com/speedskater/babel-plugin-rewire) and [Sinon](http://sinonjs.org/) to mock/stub
 - [Enzyme](http://airbnb.io/enzyme/index.html) to do React rendering
 
+### Development process:
+
+When developing a feature,
+
+* First run a separate process converting ES6 to ES5 lively:
+
+```
+$ yarn run test:watch
+```
+
+* Run the test case of a single file/directory by:
+
+```
+$ yarn test -- <the-file-path>
+```
+
+For example:
+
+```
+$ yarn test -- app/test/actions
+```
+
+* Before deployment, run all the test cases to make sure everything is fine by:
+
+```
+$ yarn test:ci
+```
+
+### Why
+
+The way suggested by [babel's doc](https://babeljs.io/docs/setup/#installation) compiles the code on the fly, which is too slow, especially when the number of files grows:
+
+```
+//package.json
+
+{
+  "scripts": {
+    "test": "mocha --compilers js:babel-register"
+  }
+}
+```
+
+So here we pre-compile the code, watch it, and maintain a cache to avoid repeated build of the files that doesn't change. After the pre-compile, the testing cycle can be *much faster* than before, especially when doing TDD.
+
+### For ~Winners~ Vimmers:
+
+For vim users, there's a plugin called [vim-test](https://github.com/janko-m/vim-test) binding tests with the editor. You can trigger a test "nearest the cursor", which is super handy when doing TDD.
+
+To make `vim-test` work together with the pre-compile process,
+
+1. copy the `editor_configs/vimrc` to `<project-root>/.vimrc`
+2. make sure these two lines exist in your `~/.vimrc` to enable directory-based `.vimrc`:
+
+```
+set exrc
+set secure
+```
+
+Then you can enjoy the fast feedback loop ~powered by the greatest editor on the planet~.
+
+
 ## Routes Draft:
 - Intro page: `{base_url}`
-- Question Page: `{base_url}/questions`
+- Questions Page: `{base_url}/questions`
+- Question Detail Page: `{base_url}/questions/:id`
 
 ## How it works:
 
@@ -118,7 +183,7 @@ associated settings can be found in the `entry` field of `webpack.config.js`.
 
 ### `yarn test`:
 
-The single quotes in `npm test` script surrounding path do not work on Windows, while [they're necessary on unix-like machines](https://github.com/mochajs/mocha/issues/1115).
+The single quotes in `yarn test` script surrounding path do not work on Windows, while [they're necessary on unix-like machines](https://github.com/mochajs/mocha/issues/1115).
 Please remove them in `scripts.test` section in `package.json` like this:
 
 ```

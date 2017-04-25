@@ -1,0 +1,17 @@
+function! MochaTransform(cmd) abort
+  let l:splitted = split(a:cmd)
+  let l:mocha_exec = l:splitted[0]
+  let l:paths = l:splitted[1:-1]
+
+  if l:paths == []
+    let l:paths = ['app/test']
+  endif
+
+  let l:overall = ['MODE=test NODE_ENV=test NODE_PATH=.babel-test-build', l:mocha_exec, '-r test/support/setup.mocha.js -r source-map-support/register --recursive'] + l:paths
+
+  let l:command = join(l:overall)
+  return substitute(l:command, "app/test", ".babel-test-build/test", "")
+endfunction
+
+let g:test#custom_transformations = {'mocha': function('MochaTransform')}
+let g:test#transformation = 'mocha'

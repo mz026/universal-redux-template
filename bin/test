@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+
+/**
+ * Usage:
+ * $ ./bin/test app/test/actions
+ */
+
+var exec = require('child_process').exec
+var spawn = require('child_process').spawn
+var filePath = process.argv[2] ||'app/test'
+
+filePath = filePath.replace('app/test', '.babel-test-build/test')
+var command = 'MODE=test NODE_ENV=test NODE_PATH=.babel-test-build ./node_modules/.bin/mocha -r test/support/setup.mocha.js -r source-map-support/register --recursive ' + filePath
+
+var test = spawn(command, [], {shell: true, stdio: "inherit"})

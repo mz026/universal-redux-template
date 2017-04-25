@@ -1,0 +1,76 @@
+#!/usr/bin/env node
+
+process.env.NODE_ENV = 'test'
+
+var fs = require('fs')
+var babel = require('babel-core')
+var path = require('path')
+var Promise = require('bluebird')
+
+var mkdirp = Promise.promisify(require('mkdirp'))
+var glob = Promise.promisify(require('glob'))
+var md5 = require('md5-file/promise')
+var writeFile = Promise.promisify(fs.writeFile)
+var babelTransform = Promise.promisify(babel.transformFile)
+
+var cache
+
+var DIST = path.join(__dirname, '..', '.babel-test-build')
+var CACHE_PATH = DIST + '/cache.json'
+var root = path.join(__dirname, '..', 'app')
+
+if (fs.existsSync(CACHE_PATH)) {
+  cache = require(CACHE_PATH)
+} else {
+  cache = {}
+}
+
+mkdirp(DIST).then(prebuildTestFiles)
+
+function prebuildTestFiles () {
+  glob(root + '/**/*.js')
+    .then(function(files) {
+      var promises = files.map(function(file) {
+        return buildIfMissing(file)
+      })
+      return Promise.all(promises)
+    })
+    .then(function() {
+      fs.writeFileSync(CACHE_PATH, JSON.stringify(cache))
+      console.log('ok')
+    })
+}
+
+function buildIfMissing (file) {
+  var bareFile = file.replace(root, '')
+
+  return md5(file)
+           .then(function(fileHash) {
+             if (cache[bareFile] === fileHash) {
+               return
+             } else {
+               cache[bareFile] = fileHash
+               return buildFile(file)
+             }
+           })
+}
+
+function buildFile (file) {
+  var bareFile = file.replace(root, '')
+  var destFilePath = path.join(DIST, bareFile)
+  var destFileDir = path.dirname(destFilePath)
+
+  return mkdirp(destFileDir)
+           .then(function() {
+             return babelTransform(file, { sourceMaps: 'inline', ast: false })
+           })
+           .then(function(res) {
+             return writeFile(destFilePath, res.code)
+           })
+           .then(function() {
+             console.log('built file: ', bareFile)
+           })
+           .catch(function(err) {
+             console.log('[ERR] build file failed: ', destFilePath)
+           })
+}
