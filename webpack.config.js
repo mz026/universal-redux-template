@@ -47,7 +47,7 @@ var config = {
 
 
 if (DEBUG) {
-  config.entry.app.push('webpack-hot-middleware/client?path=http://localhost:3000/__webpack_hmr')
+  config.entry.app.push('webpack-hot-middleware/client?path=/__webpack_hmr')
 
   config.plugins = config.plugins.concat([
     new webpack.HotModuleReplacementPlugin(),
