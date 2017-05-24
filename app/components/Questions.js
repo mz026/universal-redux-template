@@ -1,5 +1,6 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router'
+import PropTypes from 'prop-types'
 import { List } from 'immutable'
 
 class Questions extends Component {

@@ -1,8 +1,9 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { loadQuestionDetail } from 'actions/questions'
 import Helmet from 'react-helmet'
 import { browserHistory } from 'react-router'
+import PropTypes from 'prop-types'
 
 class Question extends Component {
   static fetchData({ store, params, history }) {

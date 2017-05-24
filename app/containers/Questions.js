@@ -1,10 +1,11 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { loadQuestions } from 'actions/questions'
 import { Link } from 'react-router'
 import _ from 'lodash'
 import Questions from 'components/Questions'
 import Helmet from 'react-helmet'
+import PropTypes from 'prop-types'
 
 class QuestionContainer extends Component {
   static fetchData({ store }) {
