@@ -1264,7 +1264,7 @@ create-hmac@^1.1.0, create-hmac@^1.1.2:
     create-hash "^1.1.0"
     inherits "^2.0.1"
 
-create-react-class@^15.5.1:
+create-react-class@^15.5.1, create-react-class@^15.5.3:
   version "15.5.3"
   resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.5.3.tgz#fb0f7cae79339e9a179e194ef466efa3923820fe"
   dependencies:
@@ -1429,7 +1429,7 @@ deep-eql@^0.1.3:
   dependencies:
     type-detect "0.1.1"
 
-deep-equal@1.0.1, deep-equal@^1.0.0:
+deep-equal@^1.0.0, deep-equal@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.0.1.tgz#f5d260292b660e084eff4cdbc9f08ad3247448b5"
 
@@ -1896,8 +1896,8 @@ evp_bytestokey@^1.0.0:
     create-hash "^1.1.1"
 
 exenv@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.1.tgz#75de1c8dee02e952b102aa17f8875973e0df14f9"
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
 
 exit-hook@^1.0.0:
   version "1.1.1"
@@ -2604,7 +2604,7 @@ hoek@2.x.x:
   version "2.16.3"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-2.16.3.tgz#20bb7403d3cea398e91dc4710a8ff1b8274a25ed"
 
-hoist-non-react-statics@^1.2.0:
+hoist-non-react-statics@^1.0.3, hoist-non-react-statics@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz#aa448cf0986d55cc40773b17174b7dd066cb7cfb"
 
@@ -3130,7 +3130,7 @@ loader-utils@^0.2.11, loader-utils@^0.2.16:
     json5 "^0.5.0"
     object-assign "^4.0.1"
 
-lodash-es@^4.2.1:
+lodash-es@^4.2.0, lodash-es@^4.2.1:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.4.tgz#dcc1d7552e150a0640073ba9cb31d70f032950e7"
 
@@ -3343,7 +3343,7 @@ lodash.istypedarray@^3.0.0:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/lodash.istypedarray/-/lodash.istypedarray-3.0.6.tgz#c9a477498607501d8e8494d283b87c39281cef62"
 
-lodash.keys@^3.0.0, lodash.keys@^3.1.2:
+lodash.keys@^3.0.0:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/lodash.keys/-/lodash.keys-3.1.2.tgz#4dbc0472b156be50a0b286855d1bd0b0c656098a"
   dependencies:
@@ -4248,18 +4248,12 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10:
+prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@~15.5.7:
   version "15.5.10"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
   dependencies:
     fbjs "^0.8.9"
     loose-envify "^1.3.1"
-
-prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@~15.5.7:
-  version "15.5.8"
-  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.8.tgz#6b7b2e141083be38c8595aa51fc55775c7199394"
-  dependencies:
-    fbjs "^0.8.9"
 
 propagate@0.3.x:
   version "0.3.1"
@@ -4367,12 +4361,13 @@ react-dom@^15.4.2:
     object-assign "^4.1.0"
     prop-types "~15.5.7"
 
-react-helmet@^3.1.0:
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/react-helmet/-/react-helmet-3.3.2.tgz#0d5a985aca6fba0331331fb567ca3d96681a381c"
+react-helmet@^5.1.3:
+  version "5.1.3"
+  resolved "https://registry.yarnpkg.com/react-helmet/-/react-helmet-5.1.3.tgz#cd40626593a29eecf684b6d38d711f44c48188af"
   dependencies:
-    deep-equal "1.0.1"
-    object-assign "^4.0.1"
+    deep-equal "^1.0.1"
+    object-assign "^4.1.1"
+    prop-types "^15.5.4"
     react-side-effect "^1.1.0"
 
 react-hot-api@^0.4.5:
@@ -4386,11 +4381,17 @@ react-hot-loader@^1.3.1:
     react-hot-api "^0.4.5"
     source-map "^0.4.4"
 
-react-redux@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-2.1.2.tgz#4b26e02a7e049d1dc8ba5200999a3e153b28afc7"
+react-redux@^5.0.5:
+  version "5.0.5"
+  resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-5.0.5.tgz#f8e8c7b239422576e52d6b7db06439469be9846a"
   dependencies:
+    create-react-class "^15.5.3"
+    hoist-non-react-statics "^1.0.3"
     invariant "^2.0.0"
+    lodash "^4.2.0"
+    lodash-es "^4.2.0"
+    loose-envify "^1.1.0"
+    prop-types "^15.5.10"
 
 react-router@^3.0.5:
   version "3.0.5"
@@ -4405,11 +4406,11 @@ react-router@^3.0.5:
     warning "^3.0.0"
 
 react-side-effect@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/react-side-effect/-/react-side-effect-1.1.0.tgz#57209f7ebc940d55e0fda82fe51422654175d609"
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/react-side-effect/-/react-side-effect-1.1.3.tgz#512c25abe0dec172834c4001ec5c51e04d41bc5c"
   dependencies:
     exenv "^1.2.1"
-    shallowequal "^0.2.2"
+    shallowequal "^1.0.1"
 
 react@^15.4.2:
   version "15.5.4"
@@ -4805,11 +4806,9 @@ sha.js@^2.3.6:
   dependencies:
     inherits "^2.0.1"
 
-shallowequal@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/shallowequal/-/shallowequal-0.2.2.tgz#1e32fd5bcab6ad688a4812cb0cc04efc75c7014e"
-  dependencies:
-    lodash.keys "^3.1.2"
+shallowequal@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/shallowequal/-/shallowequal-1.0.1.tgz#4349160418200bad3b82d723ded65f2354db2a23"
 
 shelljs@^0.7.5:
   version "0.7.7"
