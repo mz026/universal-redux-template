@@ -43,7 +43,7 @@ eg: `$ ./bin/generate component myNamespace/MyComponent`
 
 ## Stack:
 - [react](https://github.com/facebook/react)@15.4.2
-- [react-router](https://github.com/ReactTraining/react-router)@2.8.1
+- [react-router](https://github.com/ReactTraining/react-router)@3.0.5
 - [Immutable.js](https://facebook.github.io/immutable-js/)
 - [Webpack](https://webpack.github.io/)@2.2
 - [Babel](https://babeljs.io/)@6
