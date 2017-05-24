@@ -11,7 +11,7 @@ if (DEBUG) {
 var config = {
   devtool: DEBUG ? 'cheap-module-eval-source-map' : false,
   entry: {
-    app: './app/app',
+    app: ['./app/app'],
     vendor: [
       'react',
       'react-router',
@@ -47,10 +47,7 @@ var config = {
 
 
 if (DEBUG) {
-  config.entry.dev = [
-    'webpack-dev-server/client?http://localhost:3001',
-    'webpack/hot/only-dev-server',
-  ]
+  config.entry.app.push('webpack-hot-middleware/client?path=/__webpack_hmr')
 
   config.plugins = config.plugins.concat([
     new webpack.HotModuleReplacementPlugin(),
@@ -59,14 +56,13 @@ if (DEBUG) {
       filname: 'vendor.js'
     })
   ])
-  config.output.publicPath = 'http://localhost:3001/static/'
-  config.module.rules[0].options = {
-    "env": {
-      "development": {
-        "presets": ["react-hmre"]
-      }
-    }
-  }
+  config.output.publicPath = '/'
+  config.module.rules.unshift({
+    test: /\.js$/,
+    loader: 'react-hot-loader',
+    exclude: /node_modules/,
+    include: __dirname
+  })
 } else {
   config.plugins = config.plugins.concat([
     new webpack.optimize.CommonsChunkPlugin({

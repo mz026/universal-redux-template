@@ -14,6 +14,26 @@ if (process.env.NODE_ENV === 'production') {
   server.use('/assets', Express.static(path.join(__dirname, '..', 'assets')))
   server.use(Express.static(path.join(__dirname, '../..', 'dist')))
 
+  const webpackDevMiddleware = require('webpack-dev-middleware')
+  const webpackHotMiddleware = require('webpack-hot-middleware')
+  const webpackConfig = require(path.join(__dirname, '../..', 'webpack.config'))
+  const webpack = require('webpack')
+  const compiler = webpack(webpackConfig)
+
+  server.use(webpackDevMiddleware(compiler, {
+    publicPath: webpackConfig.output.publicPath,
+    serverSideRender: true,
+    stats: {
+      colors: true,
+      hash: true,
+      timings: true,
+      chunks: false
+    }
+  }))
+  server.use(webpackHotMiddleware(compiler, {
+    path: '/__webpack_hmr'
+  }))
+
   clearRequireCacheOnChange({ rootDir: path.join(__dirname, '..') })
 }
 

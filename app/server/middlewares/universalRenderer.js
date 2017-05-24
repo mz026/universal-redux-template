@@ -20,9 +20,8 @@ if ( process.env.NODE_ENV === 'production' ) {
   styleSrc = `/${refManifest['main.css']}`
 } else {
   scriptSrcs = [
-    'http://localhost:3001/static/vendor.js',
-    'http://localhost:3001/static/dev.js',
-    'http://localhost:3001/static/app.js'
+    '/vendor.js',
+    '/app.js'
   ]
   styleSrc = '/main.css'
 }
