@@ -1,11 +1,12 @@
 import { execSync } from 'child_process'
 import path from 'path'
 import os from 'os'
+import mkdirp from 'mkdirp'
 
 let srcRoot = path.join(__dirname, '..', 'app')
 let { type, componentName, pathPrefix } = extractArgs()
 
-mkdirp({ type, pathPrefix });
+makeDirectory({ type, pathPrefix });
 copyFiles({ type, pathPrefix, componentName });
 sed({ type, pathPrefix, componentName });
 console.log(`created file: ${codePath({ type, pathPrefix, componentName })}`);
@@ -26,10 +27,10 @@ function templateFilePath ({ type }) {
   return path.join(__dirname, `${type}.template.js`)
 }
 
-function mkdirp ({ type, pathPrefix }) {
+function makeDirectory ({ type, pathPrefix }) {
   console.log('mkdir...');
-  execSync(`mkdir -p ${codeDir({ type, pathPrefix })}`)
-  execSync(`mkdir -p ${testDir({ type, pathPrefix })}`)
+  mkdirp.sync(codeDir({ type, pathPrefix }))
+  mkdirp.sync(testDir({ type, pathPrefix }))
 }
 function copyFiles ({ type, pathPrefix, componentName }) {
   console.log('copy files...');
@@ -41,7 +42,7 @@ function codeDir ({ type, pathPrefix }) {
   return path.join(srcRoot, `${type}s`, pathPrefix)
 }
 function testDir ({ type, pathPrefix }) {
-  return path.join(srcRoot, 'spec', `${type}s`, pathPrefix)
+  return path.join(srcRoot, 'test', `${type}s`, pathPrefix)
 }
 
 function codePath ({ type, pathPrefix, componentName }) {
