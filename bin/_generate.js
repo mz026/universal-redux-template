@@ -59,7 +59,7 @@ function testTemplatePath ({ type }) {
 }
 function testFullNamespace ({ pathPrefix, componentName }) {
   let splitted = pathPrefix.split('/')
-  return splitted.concat([componentName]).map(capitalize).join('::')
+  return splitted.filter(String).concat([componentName]).map(capitalize).join('::')
 }
 function capitalize (str) {
   let lead = str[0] ? str[0].toUpperCase() : '';
