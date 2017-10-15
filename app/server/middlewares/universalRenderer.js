@@ -12,7 +12,7 @@ let scriptSrcs
 
 let styleSrc
 if ( process.env.NODE_ENV === 'production' ) {
-  let refManifest = require('../../rev-manifest.json')
+  let refManifest = require('../../../rev-manifest.json')
   scriptSrcs = [
     `/${refManifest['vendor.js']}`,
     `/${refManifest['app.js']}`,
