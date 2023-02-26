@@ -12,7 +12,9 @@
     "test:ci": "yarn run test:prebuild; yarn test",
     "webpack": "webpack",
     "build": "rimraf dist/ && npm run webpack && gulp build",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build",
+    "prepare": "yarn run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "engines": {
     "node": "6.1.0",
@@ -27,36 +29,36 @@
     "url": "https://github.com/mz026/universal-redux-template/issues"
   },
   "dependencies": {
-    "assets-webpack-plugin": "^3.2.0",
+    "assets-webpack-plugin": "^4.0.0",
     "babel-core": "^6.3.15",
-    "babel-loader": "^6.2.0",
+    "babel-loader": "^7.0.0",
     "babel-polyfill": "^6.3.14",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
     "babel-register": "^6.5.1",
     "bluebird": "^2.10.0",
-    "compression": "^1.6.0",
+    "compression": "^1.7.1",
     "concurrently": "^2.0.0",
     "cross-env": "^1.0.7",
-    "ejs": "^2.3.4",
-    "express": "^4.13.3",
-    "gulp": "^3.9.0",
-    "gulp-autoprefixer": "^3.1.0",
-    "gulp-load-plugins": "^1.2.0",
+    "ejs": "^3.1.7",
+    "express": "^4.17.3",
+    "gulp": "^4.0.0",
+    "gulp-autoprefixer": "^6.0.0",
+    "gulp-load-plugins": "^1.6.0",
     "gulp-rev": "^6.0.1",
-    "gulp-rev-all": "^0.8.24",
+    "gulp-rev-all": "^3.0.0",
     "gulp-rev-replace": "^0.4.3",
-    "gulp-sass": "^2.1.1",
+    "gulp-sass": "^5.0.0",
     "gulp-sourcemaps": "^1.6.0",
     "history": "^1.17.0",
     "humps": "^0.6.0",
     "immutable": "^3.8.1",
-    "lodash": "^3.10.1",
-    "node-sass": "^3.4.2",
-    "normalizr": "^1.0.0",
-    "prop-types": "^15.5.10",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
+    "lodash": "^4.17.21",
+    "node-sass": "^7.0.1",
+    "normalizr": "^2.0.0",
+    "prop-types": "^15.6.2",
+    "react": "^16.5.0",
+    "react-dom": "^16.5.0",
     "react-helmet": "^5.1.3",
     "react-redux": "^5.0.5",
     "react-router": "^3.0.5",
@@ -66,8 +68,9 @@
     "rewire": "^2.3.4",
     "rimraf": "^2.5.2",
     "run-sequence": "^1.2.2",
-    "superagent": "^1.4.0",
-    "webpack": "^2.2.0"
+    "superagent": "^3.8.1",
+    "webpack": "^4.0.0",
+    "@snyk/protect": "latest"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.1",
@@ -92,5 +95,6 @@
     "sinon-chai": "^2.8.0",
     "webpack-dev-middleware": "^1.10.2",
     "webpack-hot-middleware": "^2.18.0"
-  }
+  },
+  "snyk": true
 }
