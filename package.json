@@ -12,7 +12,9 @@
     "test:ci": "yarn run test:prebuild; yarn test",
     "webpack": "webpack",
     "build": "rimraf dist/ && npm run webpack && gulp build",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build",
+    "prepare": "yarn run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "engines": {
     "node": "6.1.0",
@@ -67,7 +69,8 @@
     "rimraf": "^2.5.2",
     "run-sequence": "^1.2.2",
     "superagent": "^3.8.1",
-    "webpack": "^4.0.0"
+    "webpack": "^4.0.0",
+    "@snyk/protect": "latest"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.1",
@@ -92,5 +95,6 @@
     "sinon-chai": "^2.8.0",
     "webpack-dev-middleware": "^1.10.2",
     "webpack-hot-middleware": "^2.18.0"
-  }
+  },
+  "snyk": true
 }

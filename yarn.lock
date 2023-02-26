@@ -51,6 +51,11 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
+"@snyk/protect@^1.1109.0":
+  version "1.1109.0"
+  resolved "https://registry.yarnpkg.com/@snyk/protect/-/protect-1.1109.0.tgz#7f9f8d90d425abd121bd3d240fdda173439c0781"
+  integrity sha512-AR2RO6B4LsGUTtTnRDxmDhb8EKrTMhRg3RnxQD/uP1RHFsBLNnilQrAeC0qHldrbG9k4qMmE/300aLSd+UGHiw==
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
