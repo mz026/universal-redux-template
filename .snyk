@@ -248,6 +248,14 @@ patch:
         patched: '2023-02-26T14:17:23.025Z'
     - gulp > gulp-cli > matchdep > findup-sync > micromatch > extglob > expand-brackets > snapdragon > debug:
         patched: '2023-02-26T14:17:23.025Z'
+    - babel-register > babel-core > debug:
+        patched: '2023-02-27T09:08:28.641Z'
+    - babel-register > babel-core > babel-traverse > debug:
+        patched: '2023-02-27T09:08:28.641Z'
+    - babel-register > babel-core > babel-template > babel-traverse > debug:
+        patched: '2023-02-27T09:08:28.641Z'
+    - babel-register > babel-core > babel-helpers > babel-template > babel-traverse > debug:
+        patched: '2023-02-27T09:08:28.641Z'
   'npm:extend:20180424':
     - gulp > gulp-cli > liftoff > extend:
         patched: '2023-02-26T13:54:25.048Z'
@@ -544,6 +552,34 @@ patch:
         patched: '2023-02-26T14:17:23.025Z'
     - babel-preset-es2015 > babel-plugin-transform-es2015-modules-umd > babel-plugin-transform-es2015-modules-amd > babel-plugin-transform-es2015-modules-commonjs > babel-template > babel-traverse > babel-types > lodash:
         patched: '2023-02-27T02:37:54.065Z'
+    - babel-register > babel-core > lodash:
+        patched: '2023-02-27T09:08:28.641Z'
+    - babel-register > babel-core > babel-types > lodash:
+        patched: '2023-02-27T09:08:28.641Z'
+    - babel-register > babel-core > babel-traverse > lodash:
+        patched: '2023-02-27T09:08:28.641Z'
+    - babel-register > babel-core > babel-template > lodash:
+        patched: '2023-02-27T09:08:28.641Z'
+    - babel-register > babel-core > babel-generator > lodash:
+        patched: '2023-02-27T09:08:28.641Z'
+    - babel-register > babel-core > babel-traverse > babel-types > lodash:
+        patched: '2023-02-27T09:08:28.641Z'
+    - babel-register > babel-core > babel-template > babel-types > lodash:
+        patched: '2023-02-27T09:08:28.641Z'
+    - babel-register > babel-core > babel-generator > babel-types > lodash:
+        patched: '2023-02-27T09:08:28.641Z'
+    - babel-register > babel-core > babel-template > babel-traverse > lodash:
+        patched: '2023-02-27T09:08:28.641Z'
+    - babel-register > babel-core > babel-helpers > babel-template > lodash:
+        patched: '2023-02-27T09:08:28.641Z'
+    - babel-register > babel-core > babel-template > babel-traverse > babel-types > lodash:
+        patched: '2023-02-27T09:08:28.641Z'
+    - babel-register > babel-core > babel-helpers > babel-template > babel-types > lodash:
+        patched: '2023-02-27T09:08:28.641Z'
+    - babel-register > babel-core > babel-helpers > babel-template > babel-traverse > lodash:
+        patched: '2023-02-27T09:08:28.641Z'
+    - babel-register > babel-core > babel-helpers > babel-template > babel-traverse > babel-types > lodash:
+        patched: '2023-02-27T09:08:28.641Z'
   'npm:ms:20170412':
     - gulp-load-plugins > micromatch > snapdragon > debug > ms:
         patched: '2023-02-26T13:54:25.048Z'
@@ -789,6 +825,14 @@ patch:
         patched: '2023-02-26T14:17:23.025Z'
     - gulp > gulp-cli > matchdep > findup-sync > micromatch > extglob > expand-brackets > snapdragon > debug > ms:
         patched: '2023-02-26T14:17:23.025Z'
+    - babel-register > babel-core > debug > ms:
+        patched: '2023-02-27T09:08:28.641Z'
+    - babel-register > babel-core > babel-traverse > debug > ms:
+        patched: '2023-02-27T09:08:28.641Z'
+    - babel-register > babel-core > babel-template > babel-traverse > debug > ms:
+        patched: '2023-02-27T09:08:28.641Z'
+    - babel-register > babel-core > babel-helpers > babel-template > babel-traverse > debug > ms:
+        patched: '2023-02-27T09:08:28.641Z'
   'npm:moment:20170905':
     - concurrently > moment:
         patched: '2023-02-26T14:17:23.025Z'
